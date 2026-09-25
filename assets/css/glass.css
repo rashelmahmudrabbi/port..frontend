@@ -881,6 +881,8 @@ ul { list-style: none; }
 .research-card:nth-child(2) .research-icon { background: var(--purple-bg); color: var(--purple); border-color: rgba(191,90,242,0.22); }
 .research-card:nth-child(3) .research-icon { background: var(--orange-bg); color: var(--orange); border-color: rgba(255,149,0,0.22); }
 .research-card:nth-child(4) .research-icon { background: var(--green-bg);  color: var(--green);  border-color: rgba(52,199,89,0.22); }
+.research-card:nth-child(5) .research-icon { background: var(--teal-bg, rgba(90, 200, 250, 0.1));  color: var(--teal);  border-color: rgba(90, 200, 250, 0.22); }
+.research-card:nth-child(6) .research-icon { background: var(--pink-bg, rgba(255, 45, 85, 0.1));  color: var(--pink);  border-color: rgba(255, 45, 85, 0.22); }
 .research-card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
 .research-card p  { font-size: 0.9rem; color: var(--text-2); margin: 0; }
 
@@ -1574,6 +1576,7 @@ ul { list-style: none; }
   .glass, .glass-card, .glass-panel { background: #fff !important; box-shadow: none !important; border: 1px solid #ddd !important; }
   body::before { display: none; }
 }
+
 
 
 
