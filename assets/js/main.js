@@ -504,7 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  // --- Dynamic Live Hydration from Backend / Admin Panel ---
+  
+// --- Dynamic Live Hydration from Backend / Admin Panel ---
   async function hydrateHomePage() {
     try {
       const settings = await api.settings();
@@ -521,11 +522,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (profile.location) {
         const loc = document.querySelector('.hero-meta-item:nth-child(1)');
-        if (loc) loc.innerHTML = <i class="bi bi-geo-alt-fill"></i>  + esc(profile.location);
+        if (loc) loc.innerHTML = '<i class="bi bi-geo-alt-fill"></i> ' + esc(profile.location);
       }
       if (profile.email) {
         const email = document.querySelector('.hero-meta-item:nth-child(2)');
-        if (email) email.innerHTML = <i class="bi bi-envelope-fill"></i><a href="mailto: + esc(profile.email) + "> + esc(profile.email) + </a>;
+        if (email) email.innerHTML = '<i class="bi bi-envelope-fill"></i><a href="mailto:' + esc(profile.email) + '">' + esc(profile.email) + '</a>';
       }
   
       const interests = settings.researchInterests;
@@ -533,11 +534,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const grid = document.getElementById('researchGrid');
         if (grid) {
           grid.innerHTML = interests.map((r, i) => 
-            <div class="glass-card research-card reveal reveal-delay- + (i % 3) + ">
-              <div class="research-icon"><i class="bi  + (r.icon ? (r.icon.startsWith('bi-') ? r.icon : 'bi-' + r.icon) : 'bi-stars') + "></i></div>
-              <h4> + esc(r.topic) + </h4>
-              <p> + esc(r.desc || r.description || '') + </p>
-            </div>
+            '<div class="glass-card research-card reveal reveal-delay-' + (i % 3) + '">\n' +
+            '  <div class="research-icon"><i class="bi ' + (r.icon ? (r.icon.startsWith('bi-') ? r.icon : 'bi-' + r.icon) : 'bi-stars') + '"></i></div>\n' +
+            '  <h4>' + esc(r.topic) + '</h4>\n' +
+            '  <p>' + esc(r.desc || r.description || '') + '</p>\n' +
+            '</div>'
           ).join('');
           initReveal();
         }
