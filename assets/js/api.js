@@ -107,7 +107,7 @@ const FALLBACK = {
 
 // ── Generic fetch helper ─────────────────────────────────────────
 
-const API_BASE = 'https://acportfolio-backend.vercel.app/api';
+// API_BASE is declared in config.js
 
 
 async function apiFetch(endpoint) {
