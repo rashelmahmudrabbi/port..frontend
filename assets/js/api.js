@@ -107,17 +107,17 @@ const FALLBACK = {
 
 // ── Generic fetch helper ─────────────────────────────────────────
 
+const API_BASE = 'https://acportfolio-backend.vercel.app/api';
+
 async function apiFetch(endpoint) {
   try {
     const cacheKey = 'rmr_api_' + endpoint;
     const cached = localStorage.getItem(cacheKey);
     let cachedData = null;
-    
     if (cached) {
       try { cachedData = JSON.parse(cached); } catch(e){}
     }
 
-    // Fire off the background fetch
     const fetchPromise = fetch(API_BASE + '/' + endpoint, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
@@ -132,15 +132,8 @@ async function apiFetch(endpoint) {
       return null;
     }).catch(() => null);
 
-    // If we have cached data, return it immediately so UI renders instantly
-    if (cachedData) {
-      // Background fetch will update localstorage for next time
-      return cachedData;
-    }
-
-    // Otherwise wait for the fetch
-    const result = await fetchPromise;
-    return result;
+    if (cachedData) return cachedData;
+    return await fetchPromise;
 
   } catch (e) {
     console.warn('[API] Falling back to static data for "' + endpoint + '":', e.message);
@@ -148,6 +141,7 @@ async function apiFetch(endpoint) {
   }
 }
 
+const api = {
   async settings()          { return await apiFetch('settings')          || FALLBACK.settings; },
   async education()         { return await apiFetch('education')         || FALLBACK.education; },
   async experience()        { return await apiFetch('experience')        || FALLBACK.experience; },
