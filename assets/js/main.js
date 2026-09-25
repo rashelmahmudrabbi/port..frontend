@@ -311,7 +311,6 @@ async function renderPublicationsPage() {
     </div>`;
   }).join('');
   initAbstractToggle();
-    hydrateHomePage();
   initReveal();
 }
 
@@ -585,6 +584,14 @@ async function hydrateHomePage() {
 }
 
 // ── Utility ──────────────────────────────────────────────────────
+
+function renderRichText(content) {
+  if (!content) return '';
+  return String(content)
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/on\w+\s*=\s*(["'][^"']*["']|[^\s>]+)/gi, '');
+}
+
 function esc(str) {
   if (!str) return '';
   return String(str)
