@@ -1382,9 +1382,9 @@ ul { list-style: none; }
 }
 
 /*  Footer  */
-/* ── Premium Glass Floating Dock Footer ── */
+/* ── Streamlined Professional Glass Dock Footer ── */
 .footer {
-  padding: 2.5rem 0 2rem;
+  padding: 2rem 0 1.75rem;
   margin-top: 3.5rem;
   position: relative;
   z-index: 20;
@@ -1394,65 +1394,62 @@ ul { list-style: none; }
   backdrop-filter: var(--backdrop);
   -webkit-backdrop-filter: var(--backdrop);
   border: 1px solid var(--glass-border);
-  border-radius: var(--r-xl, 24px);
-  padding: 1.5rem 2rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+  border-radius: var(--r-xl, 20px);
+  padding: 1.1rem 1.6rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   position: relative;
   overflow: hidden;
+}
+@media (min-width: 960px) {
+  .footer-card {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
 }
 .footer-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--blue), var(--purple), transparent);
+  background: linear-gradient(90deg, transparent, var(--blue), var(--teal), transparent);
   opacity: 0.6;
 }
-.footer-top-row {
+.footer-left-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 0.3rem;
+  text-align: center;
 }
-@media (min-width: 860px) {
-  .footer-top-row {
-    flex-direction: row;
+@media (min-width: 960px) {
+  .footer-left-content {
+    text-align: left;
   }
 }
-.footer-brand-block {
+.footer-main-line {
+  font-size: 0.82rem;
+  color: var(--text-2);
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
 }
-.footer-avatar-mini {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 2px solid var(--glass-border);
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+@media (min-width: 960px) {
+  .footer-main-line {
+    justify-content: flex-start;
+  }
 }
-.footer-brand-info h4 {
-  font-size: 0.95rem;
-  font-weight: 700;
+.footer-main-line strong {
   color: var(--text-1);
-  margin: 0;
-  letter-spacing: -0.01em;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  font-weight: 700;
 }
-.footer-brand-info p {
-  font-size: 0.76rem;
-  color: var(--text-3);
-  margin: 0;
-  font-weight: 500;
-}
-.footer-status-pill {
+.footer-status-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -1461,73 +1458,39 @@ ul { list-style: none; }
   color: var(--green);
   background: rgba(52,199,89,0.1);
   border: 1px solid rgba(52,199,89,0.25);
-  padding: 0.2rem 0.6rem;
+  padding: 0.15rem 0.55rem;
   border-radius: 100px;
 }
-.footer-status-pill .pulse-dot-sm {
+.footer-status-tag .pulse-dot-sm {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--green);
   animation: pulse-dot 2s infinite;
 }
-
-.footer-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.footer-nav-links a {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-2);
-  text-decoration: none;
-  transition: all 0.2s ease;
-  position: relative;
-  padding: 0.2rem 0;
-}
-.footer-nav-links a:hover {
-  color: var(--blue);
-  transform: translateY(-1px);
-}
-
-.footer-divider-soft {
-  height: 1px;
-  width: 100%;
-  background: var(--glass-border-soft, rgba(0,0,0,0.06));
-}
-
-.footer-bottom-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.85rem;
-}
-@media (min-width: 860px) {
-  .footer-bottom-row {
-    flex-direction: row;
-  }
-}
-.footer-copy-text {
-  font-size: 0.76rem;
+.footer-cert-note {
+  font-size: 0.75rem;
   color: var(--text-3);
   margin: 0;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-content: center;
 }
-@media (min-width: 860px) {
-  .footer-copy-text { text-align: left; }
+@media (min-width: 960px) {
+  .footer-cert-note {
+    justify-content: flex-start;
+  }
 }
-.footer-copy-text strong {
-  color: var(--text-1);
+.footer-cert-note i {
+  color: var(--blue);
+  font-size: 0.82rem;
 }
 
 .footer-social-dock {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -1561,7 +1524,7 @@ ul { list-style: none; }
 .footer-admin-link {
   color: var(--text-4);
   font-size: 0.82rem;
-  margin-left: 0.3rem;
+  margin-left: 0.35rem;
   display: inline-flex;
   align-items: center;
   transition: all 0.2s ease;
@@ -1592,6 +1555,7 @@ ul { list-style: none; }
   color: var(--blue);
   transform: translateY(-1px);
 }
+
 
 
 
