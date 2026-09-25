@@ -6,8 +6,8 @@
 /*  Design Tokens  */
 :root {
   /* Glass surfaces */
-  --glass-white:        rgba(255, 255, 255, 0.72);
-  --glass-white-strong: rgba(255, 255, 255, 0.88);
+  --glass-white:        rgba(255, 255, 255, 0.55);
+  --glass-white-strong: rgba(255, 255, 255, 0.70);
   --glass-white-subtle: rgba(255, 255, 255, 0.45);
   --glass-border:       rgba(255, 255, 255, 0.55);
   --glass-border-soft:  rgba(255, 255, 255, 0.28);
