@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // --- Dynamic Live Hydration from Backend / Admin Panel ---
   async function hydrateHomePage() {
-    if (!document.getElementById('typewriterText')) return;
+    
     try {
       const settings = await api.settings();
       if (!settings) return;
