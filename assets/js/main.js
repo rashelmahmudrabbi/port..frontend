@@ -489,9 +489,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initFooterYear();
   initAbstractToggle();
-    hydrateHomePage();
 
-  // Dynamic Content Hydration from Admin / Backend API
+    // Dynamic Content Hydration from Admin / Backend API
   hydrateHomePage();
 
   // Page-specific
@@ -505,8 +504,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   
-// --- Dynamic Live Hydration from Backend / Admin Panel ---
+  // --- Dynamic Live Hydration from Backend / Admin Panel ---
   async function hydrateHomePage() {
+    if (!document.getElementById('typewriterText')) return;
     try {
       const settings = await api.settings();
       if (!settings) return;
