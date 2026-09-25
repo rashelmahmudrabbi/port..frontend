@@ -398,7 +398,13 @@ ul { list-style: none; }
   color: var(--text-1);
   letter-spacing: -0.01em;
   text-decoration: none;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
+}
+.nav-brand span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .nav-brand img {
   width: 34px;
@@ -1497,6 +1503,8 @@ ul { list-style: none; }
 }
 
 @media (max-width: 768px) {
+  .cv-text { display: none; }
+  .nav-brand span { font-size: 0.9rem; }
   .navbar { padding: 0.7rem 1.1rem; }
   .nav-links { display: none; }
   .mobile-menu-btn { display: flex; }
@@ -1537,3 +1545,5 @@ ul { list-style: none; }
   .glass, .glass-card, .glass-panel { background: #fff !important; box-shadow: none !important; border: 1px solid #ddd !important; }
   body::before { display: none; }
 }
+
+
