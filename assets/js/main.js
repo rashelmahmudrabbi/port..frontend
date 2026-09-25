@@ -303,7 +303,7 @@ async function renderPublicationsPage() {
       <h4 class="pub-title">${esc(p.title)}</h4>
       <p class="pub-authors">${esc(p.authors || '')}</p>
       <p class="pub-venue">${esc(p.venue || '')}</p>
-      ${p.abstract ? `<p class="pub-abstract">${esc(p.abstract)}</p><button class="pub-abstract-toggle" style="font-size:0.8rem;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;margin-bottom:1rem">Show abstract ↓</button>` : ''}
+      ${p.abstract ? `<div class="pub-abstract">${renderRichText(p.abstract)}</div><button class="pub-abstract-toggle" style="font-size:0.8rem;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;margin-bottom:1rem">Show abstract ↓</button>` : ''}
       <div class="pub-links">
         ${p.doi_link ? `<a href="${esc(p.doi_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-link-45deg"></i> DOI</a>` : ''}
         ${p.pdf_link ? `<a href="${esc(p.pdf_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
@@ -331,7 +331,7 @@ async function renderProjectsPage() {
       <div class="project-body">
         <span class="badge ${c.cls} mb-0"><i class="bi ${c.icon}"></i> ${c.label}</span>
         <h4 class="project-title">${esc(p.title)}</h4>
-        <p class="project-desc">${esc(p.description || '')}</p>
+        <div class="project-desc">${renderRichText(p.description || '')}</div>
         <div class="project-tech">${(Array.isArray(p.tech) ? p.tech : String(p.tech || '').split(',')).map(t => `<span class="tag">${esc(t.trim())}</span>`).join('')}</div>
         <div class="project-links">
           ${(p.github_link||p.githubLink) ? `<a href="${esc(p.github_link||p.githubLink)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-github"></i> GitHub</a>` : ''}
@@ -364,7 +364,7 @@ async function renderBlogPage() {
           ${p.featured ? '<span class="badge badge-orange"><i class="bi bi-star-fill"></i> Featured</span>' : ''}
         </div>
         <h4 class="blog-title">${esc(p.title)}</h4>
-        <p class="blog-excerpt">${esc(p.excerpt)}</p>
+        <div class="blog-excerpt">${renderRichText(p.excerpt)}</div>
         <span class="blog-read-more">Read more <i class="bi bi-arrow-right"></i></span>
       </div>
     </div>`;

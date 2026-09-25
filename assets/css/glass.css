@@ -996,6 +996,15 @@ ul { list-style: none; }
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.pub-abstract p {
+  margin: 0 0 0.5rem 0;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+.pub-abstract p:last-child {
+  margin-bottom: 0;
+}
 .pub-abstract.expanded {
   -webkit-line-clamp: unset;
   overflow: visible;
