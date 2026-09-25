@@ -52,15 +52,22 @@ function initMobileMenu() {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
     nav.classList.toggle('open');
-    btn.innerHTML = nav.classList.contains('open')
-      ? '<i class="bi bi-x-lg"></i>'
-      : '<i class="bi bi-list"></i>';
+    if (nav.classList.contains('open')) {
+        btn.innerHTML = '<i class="bi bi-x-lg"></i>';
+        document.body.style.overflow = 'hidden';
+      } else {
+        btn.innerHTML = '<i class="bi bi-list"></i>';
+        document.body.style.overflow = '';
+      }
   });
   document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target) && e.target !== btn) {
-      nav.classList.remove('open');
-      btn.innerHTML = '<i class="bi bi-list"></i>';
-    }
+    if (!nav.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+        if(nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          btn.innerHTML = '<i class="bi bi-list"></i>';
+          document.body.style.overflow = '';
+        }
+      }
   });
 }
 function closeMobileNav() {
@@ -68,6 +75,7 @@ function closeMobileNav() {
   const btn = document.getElementById('mobileMenuBtn');
   if (nav) nav.classList.remove('open');
   if (btn) btn.innerHTML = '<i class="bi bi-list"></i>';
+  document.body.style.overflow = '';
 }
 
 // ── Scroll Progress ──────────────────────────────────────────────
@@ -489,4 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('allProjectsGrid')) renderProjectsPage();
   if (document.getElementById('allBlogGrid'))     renderBlogPage();
 });
+
+
+
 
