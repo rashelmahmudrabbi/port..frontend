@@ -598,20 +598,42 @@ ul { list-style: none; }
   50%       { opacity: 0.6; transform: scale(0.8); }
 }
 
+@keyframes subtleGradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .hero-name {
     font-size: clamp(2.2rem, 5.5vw, 4rem);
     font-weight: 700;
-    color: var(--text-1);
-    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
     line-height: 1.1;
     margin-bottom: 0.75rem;
-    transition: color 0.3s ease, transform 0.3s ease;
+    
+    background: linear-gradient(135deg, var(--text-1) 0%, var(--text-2) 50%, var(--text-1) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: subtleGradientFlow 12s ease-in-out infinite;
+    
+    transition: transform 0.3s ease;
     cursor: default;
     display: inline-block;
 }
 
 .hero-name:hover {
-    color: var(--blue);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .hero-name {
+    background: linear-gradient(135deg, #e5e5ea 0%, #8e8e93 50%, #e5e5ea 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-typewriter {
@@ -1552,6 +1574,7 @@ ul { list-style: none; }
   .glass, .glass-card, .glass-panel { background: #fff !important; box-shadow: none !important; border: 1px solid #ddd !important; }
   body::before { display: none; }
 }
+
 
 
 
