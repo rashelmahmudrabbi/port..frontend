@@ -363,6 +363,91 @@ async function renderBlogPage() {
   initReveal();
 }
 
+// ── Dynamic Live Hydration from Backend / Admin Panel ──────────────
+async function hydrateHomePage() {
+  try {
+    const settings = await api.settings();
+    if (!settings) return;
+
+    // 1. Profile / Hero & About
+    const profile = settings.profile || settings;
+    if (profile.name) {
+      document.querySelectorAll('.hero-name').forEach(el => el.textContent = profile.name);
+      document.title = `${profile.name} — Portfolio`;
+    }
+    if (profile.title) {
+      const tw = document.getElementById('typewriterText');
+      if (tw) tw.textContent = profile.title;
+    }
+    if (profile.location) {
+      document.querySelectorAll('.hero-meta-item:nth-child(1)').forEach(el => {
+        el.innerHTML = `<i class="bi bi-geo-alt-fill"></i> ${esc(profile.location)}`;
+      });
+    }
+    if (profile.email) {
+      document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
+        el.href = `mailto:${profile.email}`;
+        if (el.textContent.includes('@')) el.textContent = profile.email;
+      });
+    }
+    if (profile.avatar) {
+      document.querySelectorAll('.hero-avatar').forEach(img => {
+        img.src = profile.avatar;
+      });
+    }
+    if (profile.hero_status_text) {
+      document.querySelectorAll('.hero-status').forEach(el => {
+        el.textContent = profile.hero_status_text;
+      });
+    }
+
+    // Social Links
+    const socials = profile.socials || profile;
+    if (socials.github) document.querySelectorAll('a.social-pill[href*="github"], a.footer-social[href*="github"]').forEach(a => a.href = socials.github);
+    if (socials.linkedin) document.querySelectorAll('a.social-pill[href*="linkedin"], a.footer-social[href*="linkedin"]').forEach(a => a.href = socials.linkedin);
+    if (socials.researchgate) document.querySelectorAll('a.social-pill[href*="researchgate"]').forEach(a => a.href = socials.researchgate);
+    if (socials.scholar) document.querySelectorAll('a.social-pill[href*="scholar"]').forEach(a => a.href = socials.scholar);
+    if (socials.orcid) document.querySelectorAll('a.social-pill[href*="orcid"]').forEach(a => a.href = socials.orcid);
+    if (socials.social_x) document.querySelectorAll('a.social-pill[href*="twitter"], a.social-pill[href*="x.com"]').forEach(a => a.href = socials.social_x);
+
+    // CV Download Links
+    const cvUrl = profile.cv_download_url || settings.cvDownloadUrl;
+    if (cvUrl) {
+      document.querySelectorAll('a[href*="drive.google.com"], a.btn-primary[href*="drive.google"]').forEach(a => a.href = cvUrl);
+    }
+
+    // Bio / Objective in About
+    const bioText = profile.objective || settings.about_text;
+    if (bioText) {
+      const bioCard = document.querySelector('.about-bio');
+      if (bioCard) {
+        if (bioText.includes('<')) {
+          bioCard.innerHTML = bioText;
+        } else {
+          bioCard.innerHTML = `<p>${esc(bioText)}</p>`;
+        }
+      }
+    }
+
+    // 2. Research Interests dynamic update
+    const interests = settings.researchInterests;
+    if (Array.isArray(interests) && interests.length > 0) {
+      const grid = document.getElementById('researchGrid');
+      if (grid) {
+        grid.innerHTML = interests.map((r, i) => `
+          <div class="glass-card research-card reveal reveal-delay-${i % 3}">
+            <div class="research-icon"><i class="bi ${r.icon ? (r.icon.startsWith('bi-') ? r.icon : 'bi-' + r.icon) : 'bi-stars'}"></i></div>
+            <h4>${esc(r.topic)}</h4>
+            <p>${esc(r.desc || r.description || '')}</p>
+          </div>
+        `).join('');
+      }
+    }
+  } catch (err) {
+    console.warn('[Hydration] Notice:', err);
+  }
+}
+
 // ── Utility ──────────────────────────────────────────────────────
 function esc(str) {
   if (!str) return '';
@@ -396,8 +481,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initFooterYear();
   initAbstractToggle();
 
+  // Dynamic Content Hydration from Admin / Backend API
+  hydrateHomePage();
+
   // Page-specific
   if (document.getElementById('allPubsList'))     renderPublicationsPage();
   if (document.getElementById('allProjectsGrid')) renderProjectsPage();
   if (document.getElementById('allBlogGrid'))     renderBlogPage();
 });
+
