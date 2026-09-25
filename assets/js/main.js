@@ -669,10 +669,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-          initReveal();
         }
       }
     } catch (err) {
       console.warn('[Hydration] Notice:', err);
     }
+    initReveal();
   }

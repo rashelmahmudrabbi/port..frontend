@@ -133,7 +133,7 @@ async function apiFetch(endpoint) {
       return null;
     }).catch(() => null);
 
-    if (cachedData) return cachedData;
+    if (cachedData) { if (cachedData.value) { cachedData = cachedData.value; } if (cachedData.data) { cachedData = cachedData.data; } return cachedData; }
     return await fetchPromise;
 
   } catch (e) {
