@@ -1,11 +1,11 @@
-/* ================================================================
-   MAIN.JS — Rashel Mahmud Rabbi Portfolio
-   Apple Glassmorphism Theme · All interactivity & rendering
+﻿/* ================================================================
+   MAIN.JS â€” Rashel Mahmud Rabbi Portfolio
+   Apple Glassmorphism Theme Â· All interactivity & rendering
 ================================================================ */
 
 'use strict';
 
-// ── Theme ────────────────────────────────────────────────────────
+// â”€â”€ Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initTheme() {
   const btn = document.getElementById('themeToggle');
   if (!btn) return;
@@ -21,7 +21,7 @@ function initTheme() {
   });
 }
 
-// ── Navbar ───────────────────────────────────────────────────────
+// â”€â”€ Navbar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initNavbar() {
   const nav = document.getElementById('navbar');
   if (!nav) return;
@@ -44,7 +44,7 @@ function initNavbar() {
   sections.forEach(s => observer.observe(s));
 }
 
-// ── Mobile Menu ──────────────────────────────────────────────────
+// â”€â”€ Mobile Menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initMobileMenu() {
   const btn = document.getElementById('mobileMenuBtn');
   const nav = document.getElementById('mobileNav');
@@ -78,7 +78,7 @@ function closeMobileNav() {
   document.body.style.overflow = '';
 }
 
-// ── Scroll Progress ──────────────────────────────────────────────
+// â”€â”€ Scroll Progress â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initScrollProgress() {
   const bar = document.getElementById('scrollProgress');
   if (!bar) return;
@@ -88,7 +88,7 @@ function initScrollProgress() {
   }, { passive: true });
 }
 
-// ── Scroll-to-Top ────────────────────────────────────────────────
+// â”€â”€ Scroll-to-Top â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initScrollTop() {
   const btn = document.getElementById('scrollTop');
   if (!btn) return;
@@ -98,7 +98,7 @@ function initScrollTop() {
   btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
-// ── Reveal on Scroll ─────────────────────────────────────────────
+// â”€â”€ Reveal on Scroll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initReveal() {
   const els = document.querySelectorAll('.reveal');
   if (!els.length) return;
@@ -110,7 +110,7 @@ function initReveal() {
   els.forEach(el => obs.observe(el));
 }
 
-// ── Counter Animation ────────────────────────────────────────────
+// â”€â”€ Counter Animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initCounters() {
   const els = document.querySelectorAll('.counter');
   if (!els.length) return;
@@ -135,16 +135,16 @@ function initCounters() {
   els.forEach(el => obs.observe(el));
 }
 
-// ── Typewriter ───────────────────────────────────────────────────
+// â”€â”€ Typewriter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initTypewriter() {
   const el = document.getElementById('typewriterText');
   if (!el) return;
   const phrases = [
-    'Graduate Researcher – Computer Vision & AI',
+    'Graduate Researcher â€“ Computer Vision & AI',
     'Deep Learning Architect',
     'Medical Image Analysis',
     'Explainable AI Researcher',
-    'Seeking PhD – Fall 2026'
+    'Seeking PhD â€“ Fall 2026'
   ];
   let pi = 0, ci = 0, deleting = false;
   const type = () => {
@@ -161,7 +161,7 @@ function initTypewriter() {
   type();
 }
 
-// ── Spotlight Carousel ───────────────────────────────────────────
+// â”€â”€ Spotlight Carousel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let spotIdx = 0;
 function goToSpotlight(idx) {
   const slides = document.querySelectorAll('.spotlight-slide');
@@ -181,7 +181,7 @@ function initSpotlight() {
   setInterval(() => goToSpotlight(spotIdx + 1), 5000);
 }
 
-// ── Project Filter ───────────────────────────────────────────────
+// â”€â”€ Project Filter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initProjectFilter() {
   const btns  = document.querySelectorAll('.filter-btn');
   const cards = document.querySelectorAll('.project-card[data-category]');
@@ -198,7 +198,7 @@ function initProjectFilter() {
   });
 }
 
-// ── Gallery ──────────────────────────────────────────────────────
+// â”€â”€ Gallery â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openLightbox(src, caption) {
   const lb  = document.getElementById('lightbox');
   const img = document.getElementById('lightboxImg');
@@ -231,7 +231,7 @@ function initLightbox() {
   });
 }
 
-// ── Contact Form ─────────────────────────────────────────────────
+// â”€â”€ Contact Form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
@@ -250,7 +250,7 @@ function initContactForm() {
       return;
     }
     btn.disabled = true;
-    btn.innerHTML = '<i class="bi bi-arrow-repeat" style="animation:spin 1s linear infinite"></i> Sending…';
+    btn.innerHTML = '<i class="bi bi-arrow-repeat" style="animation:spin 1s linear infinite"></i> Sendingâ€¦';
     try {
       await api.contact(data);
       form.reset();
@@ -264,30 +264,30 @@ function initContactForm() {
   });
 }
 
-// ── Footer Year ──────────────────────────────────────────────────
+// â”€â”€ Footer Year â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initFooterYear() {
   const el = document.getElementById('footerYear');
   if (el) el.textContent = new Date().getFullYear();
 }
 
-// ── Pub Abstract Toggle ──────────────────────────────────────────
+// â”€â”€ Pub Abstract Toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initAbstractToggle() {
   document.querySelectorAll('.pub-abstract-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const abs = btn.previousElementSibling;
       if (!abs) return;
       const exp = abs.classList.toggle('expanded');
-      btn.textContent = exp ? 'Show less ↑' : 'Show abstract ↓';
+      btn.textContent = exp ? 'Show less â†‘' : 'Show abstract â†“';
     });
   });
 }
 
-// ── Page-Specific Rendering ───────────────────────────────────────
+// â”€â”€ Page-Specific Rendering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Publications page
 async function renderPublicationsPage() {
   const container = document.getElementById('allPubsList');
   if (!container) return;
-  container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3)"><i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:1rem"></i>Loading…</div>';
+  container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3)"><i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:1rem"></i>Loadingâ€¦</div>';
   const pubs = await api.publications();
   const typeLabels = { journal: { label: 'Journal', cls: 'badge-blue', icon: 'bi-journal-check' }, conference: { label: 'Conference', cls: 'badge-purple', icon: 'bi-building' }, thesis: { label: 'Thesis', cls: 'badge-glass', icon: 'bi-mortarboard-fill' } };
   const statusLabels = { published: { label: 'Published', cls: 'badge-green', icon: 'bi-check-circle-fill' }, completed: { label: 'Completed', cls: 'badge-green', icon: 'bi-check-circle-fill' }, accepted: { label: 'Accepted', cls: 'badge-blue', icon: 'bi-check-circle' }, review: { label: 'Under Review', cls: 'badge-orange', icon: 'bi-hourglass-split' } };
@@ -303,7 +303,7 @@ async function renderPublicationsPage() {
       <h4 class="pub-title">${esc(p.title)}</h4>
       <p class="pub-authors">${esc(p.authors || '')}</p>
       <p class="pub-venue">${esc(p.venue || '')}</p>
-      ${p.abstract ? `<p class="pub-abstract">${esc(p.abstract)}</p><button class="pub-abstract-toggle" style="font-size:0.8rem;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;margin-bottom:1rem">Show abstract ↓</button>` : ''}
+      ${p.abstract ? `<p class="pub-abstract">${esc(p.abstract)}</p><button class="pub-abstract-toggle" style="font-size:0.8rem;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;margin-bottom:1rem">Show abstract â†“</button>` : ''}
       <div class="pub-links">
         ${p.doi_link ? `<a href="${esc(p.doi_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-link-45deg"></i> DOI</a>` : ''}
         ${p.pdf_link ? `<a href="${esc(p.pdf_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
@@ -318,7 +318,7 @@ async function renderPublicationsPage() {
 async function renderProjectsPage() {
   const container = document.getElementById('allProjectsGrid');
   if (!container) return;
-  container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3)"><i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:1rem"></i>Loading…</div>';
+  container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3)"><i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:1rem"></i>Loadingâ€¦</div>';
   const projects = await api.projects();
   const catMap = { thesis: { label: 'Thesis', cls: 'badge-purple', icon: 'bi-mortarboard-fill', color: 'rgba(191,90,242,0.15),rgba(0,113,227,0.15)', fgColor: 'var(--purple)' }, research: { label: 'Research', cls: 'badge-green', icon: 'bi-graph-up', color: 'rgba(52,199,89,0.15),rgba(0,113,227,0.12)', fgColor: 'var(--green)' }, development: { label: 'Development', cls: 'badge-blue', icon: 'bi-code-slash', color: 'rgba(0,113,227,0.12),rgba(90,200,250,0.1)', fgColor: 'var(--blue)' } };
   container.innerHTML = projects.map((p, i) => {
@@ -347,7 +347,7 @@ async function renderProjectsPage() {
 async function renderBlogPage() {
   const container = document.getElementById('allBlogGrid');
   if (!container) return;
-  container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3)"><i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:1rem"></i>Loading…</div>';
+  container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3)"><i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:1rem"></i>Loadingâ€¦</div>';
   const posts = await api.blog();
   const catColors = { 'Explainable AI': 'badge-orange', 'Computer Vision': 'badge-blue', 'Deep Learning': 'badge-purple', 'Academic Life': 'badge-green', 'Resources': 'badge-glass' };
   const catIcons  = { 'Explainable AI': 'bi-lightbulb-fill', 'Computer Vision': 'bi-eye-fill', 'Deep Learning': 'bi-cpu-fill', 'Academic Life': 'bi-mortarboard-fill', 'Resources': 'bi-bookmark-fill' };
@@ -359,7 +359,7 @@ async function renderBlogPage() {
       <div class="blog-card-body">
         <div class="blog-meta">
           <span class="badge ${cls}">${esc(p.category)}</span>
-          <span style="font-size:0.78rem;color:var(--text-3)">${esc(p.date)} · ${esc(p.read_time)}</span>
+          <span style="font-size:0.78rem;color:var(--text-3)">${esc(p.date)} Â· ${esc(p.read_time)}</span>
           ${p.featured ? '<span class="badge badge-orange"><i class="bi bi-star-fill"></i> Featured</span>' : ''}
         </div>
         <h4 class="blog-title">${esc(p.title)}</h4>
@@ -371,7 +371,7 @@ async function renderBlogPage() {
   initReveal();
 }
 
-// ── Dynamic Live Hydration from Backend / Admin Panel ──────────────
+// â”€â”€ Dynamic Live Hydration from Backend / Admin Panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function hydrateHomePage() {
   try {
     const settings = await api.settings();
@@ -381,7 +381,7 @@ async function hydrateHomePage() {
     const profile = settings.profile || settings;
     if (profile.name) {
       document.querySelectorAll('.hero-name').forEach(el => el.textContent = profile.name);
-      document.title = `${profile.name} — Portfolio`;
+      document.title = `${profile.name} â€” Portfolio`;
     }
     if (profile.title) {
       const tw = document.getElementById('typewriterText');
@@ -449,6 +449,7 @@ async function hydrateHomePage() {
             <p>${esc(r.desc || r.description || '')}</p>
           </div>
         `).join('');
+          initReveal();
       }
     }
   } catch (err) {
@@ -456,7 +457,7 @@ async function hydrateHomePage() {
   }
 }
 
-// ── Utility ──────────────────────────────────────────────────────
+// â”€â”€ Utility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function esc(str) {
   if (!str) return '';
   return String(str)
@@ -472,7 +473,7 @@ const spinStyle = document.createElement('style');
 spinStyle.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
 document.head.appendChild(spinStyle);
 
-// ── Bootstrap ────────────────────────────────────────────────────
+// â”€â”€ Bootstrap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavbar();
@@ -497,6 +498,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('allProjectsGrid')) renderProjectsPage();
   if (document.getElementById('allBlogGrid'))     renderBlogPage();
 });
+
+
+
 
 
 
