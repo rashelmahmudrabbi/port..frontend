@@ -332,10 +332,10 @@ async function renderProjectsPage() {
         <span class="badge ${c.cls} mb-0"><i class="bi ${c.icon}"></i> ${c.label}</span>
         <h4 class="project-title">${esc(p.title)}</h4>
         <p class="project-desc">${esc(p.description || '')}</p>
-        <div class="project-tech">${(p.tech || '').split(',').map(t => `<span class="tag">${esc(t.trim())}</span>`).join('')}</div>
+        <div class="project-tech">${(Array.isArray(p.tech) ? p.tech : String(p.tech || '').split(',')).map(t => `<span class="tag">${esc(t.trim())}</span>`).join('')}</div>
         <div class="project-links">
-          ${p.github_link ? `<a href="${esc(p.github_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-github"></i> GitHub</a>` : ''}
-          ${p.paper_link  ? `<a href="${esc(p.paper_link)}"  target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> Live</a>` : ''}
+          ${(p.github_link||p.githubLink) ? `<a href="${esc(p.github_link||p.githubLink)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-github"></i> GitHub</a>` : ''}
+          ${(p.paper_link||p.paperLink) ? `<a href="${esc(p.paper_link||p.paperLink)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> Live</a>` : ''}
           <span class="tag" style="align-self:center">${esc(p.year || '')}</span>
         </div>
       </div>
