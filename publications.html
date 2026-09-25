@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publications — Rashel Mahmud Rabbi</title>
+  <meta name="description" content="Peer-reviewed publications by Rashel Mahmud Rabbi in Computer Vision, Medical AI, and Remote Sensing." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='8' fill='%230071e3'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui' font-size='14' font-weight='700' fill='%23fff'%3ERR%3C/text%3E%3C/svg%3E" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/glass.css" />
+  <script>(function(){try{var t=localStorage.getItem('rmr_theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+  <div id="scrollProgress"></div>
+  <nav class="navbar" id="navbar">
+    <a class="nav-brand" href="index.html">
+      <img src="media/profile/logo.png" alt="Logo" onerror="this.style.display='none'" />
+      <span>RASHEL MAHMUD RABBI</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#research">Research</a>
+      <a href="publications.html" class="active">Publications</a>
+      <a href="projects.html">Projects</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://drive.google.com/file/d/1ezs8hs6v_8_XickPu8nDRnsOSmf9bYvE/view?usp=sharing" target="_blank" class="btn btn-primary btn-sm" rel="noopener noreferrer"><i class="bi bi-file-earmark-person"></i> View CV</a>
+      <button id="themeToggle" aria-label="Toggle dark mode"><i class="bi bi-moon"></i></button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="bi bi-list"></i></button>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html"         onclick="closeMobileNav()">Home</a>
+    <a href="index.html#research"onclick="closeMobileNav()">Research</a>
+    <a href="publications.html"  onclick="closeMobileNav()">Publications</a>
+    <a href="projects.html"      onclick="closeMobileNav()">Projects</a>
+    <a href="blog.html"          onclick="closeMobileNav()">Blog</a>
+    <a href="contact.html"       onclick="closeMobileNav()">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top:8rem">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Academic Output</span>
+        <h1 class="section-title">Publications</h1>
+        <p class="section-desc">Peer-reviewed research contributions in Computer Vision, Medical AI, and Remote Sensing.</p>
+      </div>
+      <!-- Stats -->
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem">
+        <div class="glass-card" style="padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;border-radius:var(--r-lg)">
+          <i class="bi bi-journal-check" style="font-size:1.8rem;color:var(--blue)"></i>
+          <div><div style="font-size:1.8rem;font-weight:700;letter-spacing:-0.03em">3</div><div style="font-size:0.78rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em">Total Publications</div></div>
+        </div>
+        <div class="glass-card" style="padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;border-radius:var(--r-lg)">
+          <i class="bi bi-building" style="font-size:1.8rem;color:var(--purple)"></i>
+          <div><div style="font-size:1.8rem;font-weight:700;letter-spacing:-0.03em">2</div><div style="font-size:0.78rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em">Peer-Reviewed</div></div>
+        </div>
+        <div class="glass-card" style="padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;border-radius:var(--r-lg)">
+          <i class="bi bi-star-fill" style="font-size:1.8rem;color:var(--orange)"></i>
+          <div><div style="font-size:1.8rem;font-weight:700;letter-spacing:-0.03em">1</div><div style="font-size:0.78rem;color:var(--text-3);text-transform:uppercase;letter-spacing:0.08em">Q1 Journal</div></div>
+        </div>
+      </div>
+
+      <div class="pub-list" id="allPubsList">
+        <!-- Rendered by main.js -->
+        <div style="text-align:center;padding:3rem;color:var(--text-3)">
+          <i class="bi bi-arrow-repeat" style="font-size:2rem;display:block;margin-bottom:1rem;animation:spin 1s linear infinite"></i>
+          Loading publications…
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-quote">"Research with purpose, build with impact."</p>
+      <div class="footer-socials">
+        <a class="footer-social" href="https://github.com/rashelmahmudrabbi" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i></a>
+        <a class="footer-social" href="https://www.linkedin.com/in/rashelmahmudrabbi" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+        <a class="footer-social" href="https://scholar.google.com/citations?hl=en&user=agrATD8AAAAJ" target="_blank" rel="noopener noreferrer"><i class="bi bi-mortarboard"></i></a>
+        <a class="footer-social" href="mailto:raselmahud6757@gmail.com"><i class="bi bi-envelope"></i></a>
+      </div>
+      <p class="footer-copy">&copy; <span id="footerYear">2026</span> RASHEL MAHMUD RABBI</p>
+    </div>
+  </footer>
+  <button id="scrollTop" aria-label="Scroll to top"><i class="bi bi-arrow-up"></i></button>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
