@@ -1,11 +1,11 @@
-﻿/* ================================================================
+/* ================================================================
    APPLE GLASSMORPHISM DESIGN SYSTEM
    Portfolio of Rashel Mahmud Rabbi
    ================================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap');
 
-/* â”€â”€ Design Tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Design Tokens  */
 :root {
   /* Glass surfaces */
   --glass-white:        rgba(255, 255, 255, 0.72);
@@ -79,7 +79,7 @@
   --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* â”€â”€ Dark Mode â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Dark Mode  */
 [data-theme="dark"] {
   --glass-white:        rgba(255, 255, 255, 0.07);
   --glass-white-strong: rgba(255, 255, 255, 0.11);
@@ -110,7 +110,7 @@
   --shadow-xl: 0 40px 80px rgba(0,0,0,0.65);
 }
 
-/* â”€â”€ Reset & Base â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Reset & Base  */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; font-size: 16px; }
@@ -171,7 +171,7 @@ p:last-child { margin-bottom: 0; }
 
 ul { list-style: none; }
 
-/* â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Layout  */
 .container {
   width: 90%;
   max-width: 1140px;
@@ -222,7 +222,7 @@ ul { list-style: none; }
 }
 .section-header.center .section-desc { margin: 0 auto; }
 
-/* â”€â”€ Glass Components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Glass Components  */
 .glass {
   background: var(--glass-white);
   backdrop-filter: var(--backdrop);
@@ -271,7 +271,7 @@ ul { list-style: none; }
   padding: 2.5rem;
 }
 
-/* â”€â”€ Buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Buttons  */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -332,7 +332,7 @@ ul { list-style: none; }
 .btn-icon { padding: 0.6rem; width: 44px; height: 44px; }
 .btn-icon.btn-sm { width: 36px; height: 36px; padding: 0.4rem; font-size: 0.9rem; }
 
-/* â”€â”€ Badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Badges  */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -349,7 +349,7 @@ ul { list-style: none; }
 .badge-orange { background: var(--orange-bg); color: var(--orange); border: 1px solid rgba(255,149,0,0.2); }
 .badge-glass  { background: var(--glass-white-strong); color: var(--text-2); border: 1px solid var(--glass-border); }
 
-/* â”€â”€ Tags / Pills â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Tags / Pills  */
 .tag {
   display: inline-block;
   padding: 0.22rem 0.65rem;
@@ -363,7 +363,7 @@ ul { list-style: none; }
   -webkit-backdrop-filter: var(--backdrop-light);
 }
 
-/* â”€â”€ Navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Navigation  */
 .navbar {
   position: fixed;
   top: 1rem;
@@ -509,7 +509,7 @@ ul { list-style: none; }
 .mobile-nav a:hover { color: var(--text-1); background: var(--surface-2); }
 .mobile-nav .divider { height: 1px; background: var(--line); margin: 0.25rem 0; }
 
-/* â”€â”€ Hero Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Hero Section  */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -744,7 +744,7 @@ ul { list-style: none; }
   font-weight: 600;
 }
 
-/* â”€â”€ About / Bio â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  About / Bio  */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -857,7 +857,7 @@ ul { list-style: none; }
 }
 .spotlight-dot.active { background: var(--blue); width: 18px; border-radius: 3px; }
 
-/* â”€â”€ Research Interests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Research Interests  */
 .research-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -886,7 +886,7 @@ ul { list-style: none; }
 .research-card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
 .research-card p  { font-size: 0.9rem; color: var(--text-2); margin: 0; }
 
-/* â”€â”€ Timeline (Experience / Education) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Timeline (Experience / Education)  */
 .timeline { position: relative; }
 .timeline::before {
   content: '';
@@ -981,7 +981,7 @@ ul { list-style: none; }
   border: 1px solid rgba(52,199,89,0.22);
 }
 
-/* â”€â”€ Publications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Publications  */
 .pub-list { display: flex; flex-direction: column; gap: 1.25rem; }
 .pub-card { padding: 1.75rem; border-radius: var(--r-lg); }
 .pub-meta { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
@@ -1004,7 +1004,7 @@ ul { list-style: none; }
 }
 .pub-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-/* â”€â”€ Projects â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Projects  */
 .project-filter {
   display: flex;
   gap: 0.5rem;
@@ -1062,7 +1062,7 @@ ul { list-style: none; }
 .project-tech  { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
 .project-links { display: flex; gap: 0.5rem; }
 
-/* â”€â”€ Skills â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Skills  */
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1105,7 +1105,7 @@ ul { list-style: none; }
 .lang-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 0; line-height: 1.2; }
 .lang-level { font-size: 0.78rem; color: var(--text-3); }
 
-/* â”€â”€ Certifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Certifications  */
 .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
 .cert-card { padding: 1.5rem; border-radius: var(--r-lg); display: flex; align-items: center; gap: 1.25rem; }
 .cert-thumb {
@@ -1129,7 +1129,7 @@ ul { list-style: none; }
 .cert-issuer { font-size: 0.83rem; color: var(--text-2); margin-bottom: 0.7rem; }
 .cert-links { display: flex; gap: 0.4rem; }
 
-/* â”€â”€ Awards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Awards  */
 .awards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
 .award-card { padding: 1.75rem; border-radius: var(--r-lg); text-align: center; }
 .award-icon {
@@ -1145,7 +1145,7 @@ ul { list-style: none; }
 .award-org   { font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.35rem; }
 .award-year  { font-size: 0.8rem; font-weight: 600; color: var(--orange); }
 
-/* â”€â”€ Gallery â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Gallery  */
 .gallery-group { margin-bottom: 3rem; }
 .gallery-group-title { font-size: 1.1rem; margin-bottom: 0.5rem; }
 .gallery-group-meta  { font-size: 0.875rem; color: var(--text-3); margin: 0 auto 1.25rem; }
@@ -1230,7 +1230,7 @@ ul { list-style: none; }
 .lightbox-nav.prev { left: 1.5rem; }
 .lightbox-nav.next { right: 1.5rem; }
 
-/* â”€â”€ Blog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Blog  */
 .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
 .blog-card { border-radius: var(--r-lg); overflow: hidden; display: flex; flex-direction: column; }
 .blog-card-top {
@@ -1248,7 +1248,7 @@ ul { list-style: none; }
 .blog-read-more { color: var(--blue); font-size: 0.875rem; font-weight: 500; }
 .blog-read-more:hover { color: var(--blue-lt); }
 
-/* â”€â”€ Teaching â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Teaching  */
 .teaching-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
 .teaching-role-card { padding: 1.5rem; border-radius: var(--r-lg); }
 .teaching-role-icon {
@@ -1278,7 +1278,7 @@ ul { list-style: none; }
 }
 .teaching-area-tag:hover { color: var(--blue); border-color: var(--blue-border); background: var(--blue-bg); }
 
-/* â”€â”€ References â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  References  */
 .ref-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
 .ref-card { padding: 1.75rem; border-radius: var(--r-lg); }
 .ref-avatar {
@@ -1298,7 +1298,7 @@ ul { list-style: none; }
 .ref-email { font-size: 0.875rem; color: var(--blue); }
 .ref-email:hover { color: var(--blue-lt); }
 
-/* â”€â”€ Activities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Activities  */
 .activity-list { display: flex; flex-direction: column; gap: 0.6rem; }
 .activity-item {
   display: flex;
@@ -1315,7 +1315,7 @@ ul { list-style: none; }
 }
 .activity-item i { color: var(--blue); flex-shrink: 0; }
 
-/* â”€â”€ Contact Form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Contact Form  */
 .contact-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.5rem; align-items: start; }
 .contact-info { padding: 2rem; border-radius: var(--r-xl); }
 .contact-info-item {
@@ -1383,7 +1383,7 @@ ul { list-style: none; }
   text-align: center;
 }
 
-/* â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Footer  */
 .footer {
   background: var(--glass-white);
   backdrop-filter: var(--backdrop);
@@ -1433,7 +1433,7 @@ ul { list-style: none; }
 .footer-admin { color: var(--text-4); font-size: 0.9rem; margin-left: 0.5rem; }
 .footer-admin:hover { color: var(--text-3); }
 
-/* â”€â”€ Scroll-to-Top â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Scroll-to-Top  */
 #scrollTop {
   position: fixed;
   bottom: 2rem; right: 2rem;
@@ -1456,7 +1456,7 @@ ul { list-style: none; }
 #scrollTop.visible { opacity: 1; transform: translateY(0); }
 #scrollTop:hover { background: var(--blue); color: #fff; border-color: var(--blue); transform: translateY(-2px); }
 
-/* â”€â”€ Scroll Progress Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Scroll Progress Bar  */
 #scrollProgress {
   position: fixed;
   top: 0; left: 0;
@@ -1467,7 +1467,7 @@ ul { list-style: none; }
   transition: width 0.1s linear;
 }
 
-/* â”€â”€ Reveal Animations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Reveal Animations  */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -1482,7 +1482,7 @@ ul { list-style: none; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
-/* â”€â”€ Skeletons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Skeletons  */
 .skeleton {
   background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-1) 50%, var(--surface-2) 75%);
   background-size: 200% 100%;
@@ -1498,14 +1498,14 @@ ul { list-style: none; }
 .skeleton-text  { height: 0.85rem; width: 90%; border-radius: 4px; margin-bottom: 0.4rem; }
 .skeleton-circle { border-radius: 50%; }
 
-/* â”€â”€ Divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Divider  */
 .divider {
   height: 1px;
   background: var(--line);
   margin: 2rem 0;
 }
 
-/* â”€â”€ Utility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Utility  */
 .text-blue   { color: var(--blue) !important; }
 .text-purple { color: var(--purple) !important; }
 .text-green  { color: var(--green) !important; }
@@ -1522,7 +1522,7 @@ ul { list-style: none; }
 .align-center { align-items: center; }
 .flex-wrap { flex-wrap: wrap; }
 
-/* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Responsive  */
 @media (max-width: 1024px) {
   .about-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
@@ -1570,7 +1570,7 @@ ul { list-style: none; }
   .hero-stat { border-radius: var(--r-xl) !important; }
 }
 
-/* â”€â”€ Print Styles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/*  Print Styles  */
 @media print {
   .navbar, #scrollTop, #scrollProgress, .hero-orb { display: none !important; }
   .glass, .glass-card, .glass-panel { background: #fff !important; box-shadow: none !important; border: 1px solid #ddd !important; }
