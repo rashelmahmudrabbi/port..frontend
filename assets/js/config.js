@@ -1,2 +1,2 @@
 // Portfolio API Configuration
-const API_BASE = 'https://portfolio-backend-u.vercel.app/api';
+const API_BASE = 'https://portbackend-six.vercel.app/api';
