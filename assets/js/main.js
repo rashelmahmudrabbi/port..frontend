@@ -412,12 +412,12 @@ async function hydrateHomePage() {
 
     // Social Links
     const socials = profile.socials || profile;
-    if (socials.github) document.querySelectorAll('a.social-pill[href*="github"], a.footer-social[href*="github"]').forEach(a => a.href = socials.github);
-    if (socials.linkedin) document.querySelectorAll('a.social-pill[href*="linkedin"], a.footer-social[href*="linkedin"]').forEach(a => a.href = socials.linkedin);
-    if (socials.researchgate) document.querySelectorAll('a.social-pill[href*="researchgate"]').forEach(a => a.href = socials.researchgate);
-    if (socials.scholar) document.querySelectorAll('a.social-pill[href*="scholar"]').forEach(a => a.href = socials.scholar);
-    if (socials.orcid) document.querySelectorAll('a.social-pill[href*="orcid"]').forEach(a => a.href = socials.orcid);
-    if (socials.social_x) document.querySelectorAll('a.social-pill[href*="twitter"], a.social-pill[href*="x.com"]').forEach(a => a.href = socials.social_x);
+    if (socials.github) document.querySelectorAll('a.social-pill[href*="github"], a.footer-social[href*="github"], a.footer-dock-btn[href*="github"]').forEach(a => a.href = socials.github);
+    if (socials.linkedin) document.querySelectorAll('a.social-pill[href*="linkedin"], a.footer-social[href*="linkedin"], a.footer-dock-btn[href*="linkedin"]').forEach(a => a.href = socials.linkedin);
+    if (socials.researchgate) document.querySelectorAll('a.social-pill[href*="researchgate"], a.footer-dock-btn[href*="researchgate"]').forEach(a => a.href = socials.researchgate);
+    if (socials.scholar) document.querySelectorAll('a.social-pill[href*="scholar"], a.footer-dock-btn[href*="scholar"]').forEach(a => a.href = socials.scholar);
+    if (socials.orcid) document.querySelectorAll('a.social-pill[href*="orcid"], a.footer-dock-btn[href*="orcid"]').forEach(a => a.href = socials.orcid);
+    if (socials.social_x) document.querySelectorAll('a.social-pill[href*="twitter"], a.social-pill[href*="x.com"], a.footer-dock-btn[href*="twitter"], a.footer-dock-btn[href*="x.com"]').forEach(a => a.href = socials.social_x);
 
     // CV Download Links
     const cvUrl = profile.cv_download_url || settings.cvDownloadUrl;

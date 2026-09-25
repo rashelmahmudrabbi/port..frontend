@@ -1382,138 +1382,217 @@ ul { list-style: none; }
 }
 
 /*  Footer  */
-/* ── Modern Compact Interactive Footer ── */
+/* ── Premium Glass Floating Dock Footer ── */
 .footer {
+  padding: 2.5rem 0 2rem;
+  margin-top: 3.5rem;
+  position: relative;
+  z-index: 20;
+}
+.footer-card {
   background: var(--glass-white);
   backdrop-filter: var(--backdrop);
   -webkit-backdrop-filter: var(--backdrop);
-  border-top: 1px solid var(--glass-border);
-  padding: 1.5rem 0 1.25rem;
-  margin-top: 3rem;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-xl, 24px);
+  padding: 1.5rem 2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   position: relative;
-  z-index: 10;
+  overflow: hidden;
 }
-.footer-inner {
+.footer-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue), var(--purple), transparent);
+  opacity: 0.6;
+}
+.footer-top-row {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  justify-content: space-between;
+  gap: 1rem;
 }
-@media (min-width: 900px) {
-  .footer-inner {
+@media (min-width: 860px) {
+  .footer-top-row {
     flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
-    gap: 1.5rem;
   }
 }
-.footer-left {
+.footer-brand-block {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.85rem;
 }
-.footer-quote {
-  font-size: 0.88rem;
-  color: var(--text-2);
-  font-style: italic;
+.footer-avatar-mini {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--glass-border);
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.footer-brand-info h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-1);
   margin: 0;
+  letter-spacing: -0.01em;
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
-.footer-quote i {
-  color: var(--blue);
-  font-size: 0.8rem;
-}
-.footer-copy {
-  font-size: 0.78rem;
+.footer-brand-info p {
+  font-size: 0.76rem;
   color: var(--text-3);
   margin: 0;
-  line-height: 1.4;
+  font-weight: 500;
 }
-.footer-copy strong {
-  color: var(--text-1);
-  font-weight: 600;
-}
-.footer-copy a {
-  color: var(--text-3);
-  transition: color 0.2s ease;
-}
-.footer-copy a:hover {
-  color: var(--blue);
-}
-.footer-admin {
-  color: var(--text-4);
-  font-size: 0.85rem;
-  margin-left: 0.35rem;
+.footer-status-pill {
   display: inline-flex;
   align-items: center;
-  transition: transform 0.2s ease, color 0.2s ease;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--green);
+  background: rgba(52,199,89,0.1);
+  border: 1px solid rgba(52,199,89,0.25);
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
 }
-.footer-admin:hover {
+.footer-status-pill .pulse-dot-sm {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s infinite;
+}
+
+.footer-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-nav-links a {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 0.2rem 0;
+}
+.footer-nav-links a:hover {
+  color: var(--blue);
+  transform: translateY(-1px);
+}
+
+.footer-divider-soft {
+  height: 1px;
+  width: 100%;
+  background: var(--glass-border-soft, rgba(0,0,0,0.06));
+}
+
+.footer-bottom-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+@media (min-width: 860px) {
+  .footer-bottom-row {
+    flex-direction: row;
+  }
+}
+.footer-copy-text {
+  font-size: 0.76rem;
+  color: var(--text-3);
+  margin: 0;
+  text-align: center;
+}
+@media (min-width: 860px) {
+  .footer-copy-text { text-align: left; }
+}
+.footer-copy-text strong {
+  color: var(--text-1);
+}
+
+.footer-social-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-dock-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--glass-white-strong);
+  border: 1px solid var(--glass-border);
+  color: var(--text-2);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+}
+.footer-dock-btn:hover {
+  transform: translateY(-3px) scale(1.12);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.footer-dock-btn[title="GitHub"]:hover        { background: #24292e; color: #fff; border-color: #24292e; }
+.footer-dock-btn[title="LinkedIn"]:hover      { background: #0077b5; color: #fff; border-color: #0077b5; }
+.footer-dock-btn[title="Google Scholar"]:hover{ background: #4285f4; color: #fff; border-color: #4285f4; }
+.footer-dock-btn[title="ResearchGate"]:hover  { background: #00d2d3; color: #fff; border-color: #00d2d3; }
+.footer-dock-btn[title="ORCID"]:hover         { background: #a6ce39; color: #fff; border-color: #a6ce39; }
+.footer-dock-btn[title*="Twitter"]:hover,
+.footer-dock-btn[title="X"]:hover             { background: #000;    color: #fff; border-color: #000; }
+.footer-dock-btn[title="Email"]:hover         { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+.footer-admin-link {
+  color: var(--text-4);
+  font-size: 0.82rem;
+  margin-left: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+.footer-admin-link:hover {
   color: var(--blue);
   transform: rotate(45deg);
 }
 
-.footer-socials {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin: 0;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.footer-social {
-  position: relative;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: var(--glass-white-strong);
-  border: 1px solid var(--glass-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-2);
-  font-size: 0.95rem;
-  transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
-  text-decoration: none;
-}
-.footer-social:hover {
-  transform: translateY(-3px) scale(1.1);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
-}
-/* Brand colors on hover */
-.footer-social[title="GitHub"]:hover        { background: #24292e; color: #fff; border-color: #24292e; }
-.footer-social[title="LinkedIn"]:hover      { background: #0077b5; color: #fff; border-color: #0077b5; }
-.footer-social[title="ResearchGate"]:hover  { background: #00d2d3; color: #fff; border-color: #00d2d3; }
-.footer-social[title="Google Scholar"]:hover{ background: #4285f4; color: #fff; border-color: #4285f4; }
-.footer-social[title="ORCID"]:hover         { background: #a6ce39; color: #fff; border-color: #a6ce39; }
-.footer-social[title*="Twitter"]:hover,
-.footer-social[title="X"]:hover             { background: #000;    color: #fff; border-color: #000; }
-.footer-social[title="Email"]:hover         { background: var(--blue); color: #fff; border-color: var(--blue); }
-
-/* Quick Back to Top in footer for convenience */
-.footer-backtop {
+.footer-top-jump {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.78rem;
-  font-weight: 600;
+  gap: 0.25rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+  background: var(--glass-white-strong);
+  border: 1px solid var(--glass-border);
   color: var(--text-3);
+  font-size: 0.72rem;
+  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
-  padding: 0.3rem 0.65rem;
-  border-radius: 100px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-white-strong);
   transition: all 0.2s ease;
 }
-.footer-backtop:hover {
-  color: var(--blue);
-  border-color: var(--blue-border);
+.footer-top-jump:hover {
   background: var(--blue-bg);
+  border-color: var(--blue-border);
+  color: var(--blue);
   transform: translateY(-1px);
 }
+
 
 
 /*  Scroll-to-Top  */
