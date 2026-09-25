@@ -106,24 +106,48 @@ const FALLBACK = {
 };
 
 // ── Generic fetch helper ─────────────────────────────────────────
+
 async function apiFetch(endpoint) {
   try {
-    const res = await fetch(API_BASE + '/' + endpoint, {
+    const cacheKey = 'rmr_api_' + endpoint;
+    const cached = localStorage.getItem(cacheKey);
+    let cachedData = null;
+    
+    if (cached) {
+      try { cachedData = JSON.parse(cached); } catch(e){}
+    }
+
+    // Fire off the background fetch
+    const fetchPromise = fetch(API_BASE + '/' + endpoint, {
       method: 'GET',
       headers: { 'Accept': 'application/json' },
       signal: AbortSignal.timeout(8000)
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return Array.isArray(data) ? data : (data.data || data);
+    }).then(async res => {
+      if (res.ok) {
+        const data = await res.json();
+        const finalData = Array.isArray(data) ? data : (data.value ? data.value : (data.data || data));
+        localStorage.setItem(cacheKey, JSON.stringify(finalData));
+        return finalData;
+      }
+      return null;
+    }).catch(() => null);
+
+    // If we have cached data, return it immediately so UI renders instantly
+    if (cachedData) {
+      // Background fetch will update localstorage for next time
+      return cachedData;
+    }
+
+    // Otherwise wait for the fetch
+    const result = await fetchPromise;
+    return result;
+
   } catch (e) {
-    console.warn(`[API] Falling back to static data for "${endpoint}":`, e.message);
+    console.warn('[API] Falling back to static data for "' + endpoint + '":', e.message);
     return null;
   }
 }
 
-// ── Individual resource fetchers ─────────────────────────────────
-const api = {
   async settings()          { return await apiFetch('settings')          || FALLBACK.settings; },
   async education()         { return await apiFetch('education')         || FALLBACK.education; },
   async experience()        { return await apiFetch('experience')        || FALLBACK.experience; },
