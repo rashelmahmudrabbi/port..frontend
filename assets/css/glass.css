@@ -943,10 +943,10 @@ ul { list-style: none; }
   line-height: 1.55;
 }
 .timeline-bullets li::before {
-  content: 'â€º';
-  position: absolute;
-  left: 0;
-  color: var(--blue);
+  content: '\2022';
+    position: absolute;
+    left: 0;
+    color: var(--blue);
   font-size: 1rem;
 }
 
