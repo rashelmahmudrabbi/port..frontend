@@ -748,24 +748,49 @@
     errorDiv.classList.remove('show');
 
     try {
+      // 1. Send email directly to inbox via Web3Forms
       const formData = new FormData(this);
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
+      let emailSuccess = false;
+      let emailErrorMsg = '';
 
-      if (data.success) {
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) {
+          emailSuccess = true;
+        } else {
+          emailErrorMsg = data.message || 'Email delivery failed';
+        }
+      } catch (e) {
+        console.warn('Web3Forms delivery attempt error:', e);
+        emailErrorMsg = e.message;
+      }
+
+      // 2. Also record message in backend database for Admin Panel inbox
+      try {
+        await api.contact({
+          name: name,
+          email: email,
+          subject: document.getElementById('contactSubjectInput')?.value?.trim() || 'General Inquiry',
+          message: message
+        });
+      } catch (backendErr) {
+        console.warn('Backend database recording notice:', backendErr);
+      }
+
+      if (emailSuccess) {
         success.classList.add('show');
         this.reset();
         charCounter.textContent = '0 / 2000';
         charCounter.className = 'char-counter';
         document.querySelectorAll('.form-input, .form-textarea').forEach(el => el.classList.remove('valid','error'));
         document.querySelectorAll('#subjectChips .chip').forEach(c => c.classList.remove('active'));
-        // Scroll to success
         success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } else {
-        throw new Error(data.message || 'Submission failed');
+        throw new Error(emailErrorMsg || 'Submission failed');
       }
     } catch (err) {
       console.error('Form error:', err);

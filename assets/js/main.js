@@ -234,7 +234,7 @@ function initLightbox() {
 // ── Contact Form ─────────────────────────────────────────────────
 function initContactForm() {
   const form = document.getElementById('contactForm');
-  if (!form) return;
+  if (!form || form.querySelector("[name=access_key]")) return;
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const btn = form.querySelector('[type=submit]');
