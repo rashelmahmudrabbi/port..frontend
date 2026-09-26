@@ -161,24 +161,71 @@ function initTypewriter() {
   type();
 }
 
+// ── About Tabs (Executive Bio vs Research Vision) ─────────────────
+function switchAboutTab(tabName) {
+  const btnBio = document.getElementById('tabBtnBio');
+  const btnVision = document.getElementById('tabBtnVision');
+  const paneBio = document.getElementById('tabPaneBio');
+  const paneVision = document.getElementById('tabPaneVision');
+
+  if (tabName === 'bio') {
+    if (btnBio) { btnBio.classList.add('active'); btnBio.setAttribute('aria-selected', 'true'); }
+    if (btnVision) { btnVision.classList.remove('active'); btnVision.setAttribute('aria-selected', 'false'); }
+    if (paneBio) paneBio.classList.add('active');
+    if (paneVision) paneVision.classList.remove('active');
+  } else {
+    if (btnBio) { btnBio.classList.remove('active'); btnBio.setAttribute('aria-selected', 'false'); }
+    if (btnVision) { btnVision.classList.add('active'); btnVision.setAttribute('aria-selected', 'true'); }
+    if (paneBio) paneBio.classList.remove('active');
+    if (paneVision) paneVision.classList.add('active');
+  }
+}
+
 // ── Spotlight Carousel ───────────────────────────────────────────
 let spotIdx = 0;
+let spotlightTimer = null;
+
 function goToSpotlight(idx) {
   const slides = document.querySelectorAll('.spotlight-slide');
   const dots   = document.querySelectorAll('.spotlight-dot');
-  const counter = document.querySelector('.spotlight-footer span:last-child');
+  const counter = document.getElementById('spotlightCounter') || document.querySelector('.spotlight-footer span:last-child');
   if (!slides.length) return;
-  slides[spotIdx].classList.remove('active');
-  dots[spotIdx]?.classList.remove('active');
+  if (slides[spotIdx]) slides[spotIdx].classList.remove('active');
+  if (dots[spotIdx]) dots[spotIdx].classList.remove('active');
   spotIdx = (idx + slides.length) % slides.length;
-  slides[spotIdx].classList.add('active');
-  dots[spotIdx]?.classList.add('active');
+  if (slides[spotIdx]) slides[spotIdx].classList.add('active');
+  if (dots[spotIdx]) dots[spotIdx].classList.add('active');
   if (counter) counter.textContent = `${spotIdx + 1} / ${slides.length}`;
 }
-function nextSpotlight() { goToSpotlight(spotIdx + 1); }
-function prevSpotlight() { goToSpotlight(spotIdx - 1); }
+
+function nextSpotlight() {
+  goToSpotlight(spotIdx + 1);
+  resetSpotlightTimer();
+}
+
+function prevSpotlight() {
+  goToSpotlight(spotIdx - 1);
+  resetSpotlightTimer();
+}
+
+function resetSpotlightTimer() {
+  if (spotlightTimer) clearInterval(spotlightTimer);
+  spotlightTimer = setInterval(() => {
+    goToSpotlight(spotIdx + 1);
+  }, 5000);
+}
+
 function initSpotlight() {
-  setInterval(() => goToSpotlight(spotIdx + 1), 5000);
+  const card = document.getElementById('spotlightCard');
+  if (card) {
+    card.addEventListener('mouseenter', () => {
+      if (spotlightTimer) clearInterval(spotlightTimer);
+    });
+    card.addEventListener('mouseleave', () => {
+      resetSpotlightTimer();
+    });
+  }
+  resetSpotlightTimer();
 }
 
 // ── Project Filter ───────────────────────────────────────────────
@@ -424,17 +471,112 @@ async function hydrateHomePage() {
       document.querySelectorAll('a[href*="drive.google.com"], a.btn-primary[href*="drive.google"]').forEach(a => a.href = cvUrl);
     }
 
-    // Bio / Objective in About
-    const bioText = profile.objective || settings.about_text;
+    // About Section (Kicker, Headline, Status, Bio, Statement & Pills)
+    const aboutData = settings.about || {};
+    const aboutKickerEl = document.getElementById('aboutKicker');
+    if (aboutKickerEl && (aboutData.kicker || settings.about_kicker)) {
+      aboutKickerEl.textContent = aboutData.kicker || settings.about_kicker;
+    }
+
+    const aboutHeadlineEl = document.getElementById('aboutHeadline');
+    if (aboutHeadlineEl && (aboutData.headline || settings.about_headline)) {
+      aboutHeadlineEl.textContent = aboutData.headline || settings.about_headline;
+    }
+
+    // Status Pill in About
+    const statusPillEl = document.getElementById('aboutStatusPill');
+    const statusText = aboutData.statusText || settings.about_status_text || profile.hero_status_text;
+    if (statusPillEl && statusText) {
+      statusPillEl.innerHTML = `<span class="dot"></span> ${esc(statusText)}`;
+    }
+
+    // Dynamic Meta Pills
+    const pills = aboutData.pills || [];
+    if (Array.isArray(pills) && pills.length > 0) {
+      const pillsContainer = document.getElementById('aboutPillsContainer');
+      if (pillsContainer) {
+        const colorClassMap = {
+          primary: 'text-primary',
+          danger: 'text-danger',
+          success: 'text-success',
+          warning: 'text-warning',
+          info: 'text-info',
+          secondary: 'text-secondary'
+        };
+        const renderedPills = pills.map(p => {
+          const colorClass = colorClassMap[p.colorType] || 'text-primary';
+          const iconHtml = p.icon ? `<i class="bi ${esc(p.icon)} ${colorClass}"></i> ` : '';
+          return `<span class="about-pill">${iconHtml}${esc(p.label)}</span>`;
+        }).join('');
+        const statusHtml = statusText ? `<span class="about-pill" id="aboutStatusPill"><span class="dot"></span> ${esc(statusText)}</span>` : '';
+        pillsContainer.innerHTML = renderedPills + statusHtml;
+      }
+    }
+
+    // Executive Bio Tab
+    const bioText = aboutData.text || settings.about_text || profile.objective;
     if (bioText) {
-      const bioCard = document.querySelector('.about-bio');
-      if (bioCard) {
+      const bioEl = document.getElementById('aboutBioContent') || document.querySelector('.about-bio');
+      if (bioEl) {
         if (bioText.includes('<')) {
-          bioCard.innerHTML = bioText;
+          bioEl.innerHTML = sanitizeHTML(bioText);
         } else {
-          bioCard.innerHTML = `<p>${esc(bioText)}</p>`;
+          bioEl.innerHTML = `<p>${esc(bioText)}</p>`;
         }
       }
+    }
+
+    // Research Statement / Vision Tab
+    const visionText = aboutData.research_statement_text || settings.research_statement_text;
+    if (visionText) {
+      const visionEl = document.getElementById('aboutVisionContent');
+      if (visionEl) {
+        if (visionText.includes('<')) {
+          visionEl.innerHTML = sanitizeHTML(visionText);
+        } else {
+          visionEl.innerHTML = `<p>${esc(visionText)}</p>`;
+        }
+      }
+    }
+
+    // Dynamic Spotlight Highlights
+    try {
+      const spotlights = await api.spotlights();
+      if (Array.isArray(spotlights) && spotlights.length > 0) {
+        const carousel = document.getElementById('spotlightCarousel');
+        const dotsContainer = document.getElementById('spotlightDots');
+        const counterEl = document.getElementById('spotlightCounter');
+
+        if (carousel) {
+          carousel.innerHTML = spotlights.map((s, idx) => {
+            const badgeClass = s.badgeType || 'badge-pub';
+            const iconBadge = badgeClass === 'badge-proj' ? 'bi-cpu' : (badgeClass === 'badge-xai' ? 'bi-eye' : 'bi-journal-check');
+            const linkHref = s.linkUrl || '#';
+            const linkText = s.linkLabel || 'Learn More';
+            return `
+              <div class="spotlight-slide ${idx === 0 ? 'active' : ''}">
+                <span class="spotlight-badge ${esc(badgeClass)}"><i class="bi ${iconBadge}"></i> ${esc(s.badge || 'Highlight')}</span>
+                <h4>${esc(s.title || '')}</h4>
+                <p>${esc(s.description || '')}</p>
+                ${s.tag ? `<span class="spotlight-tag-pill">${esc(s.tag)}</span>` : ''}
+                ${linkHref !== '#' ? `<a href="${esc(linkHref)}" class="btn btn-glass btn-sm"><i class="bi bi-arrow-right-circle"></i> ${esc(linkText)}</a>` : ''}
+              </div>
+            `;
+          }).join('');
+        }
+
+        if (dotsContainer) {
+          dotsContainer.innerHTML = spotlights.map((_, idx) => `
+            <div class="spotlight-dot ${idx === 0 ? 'active' : ''}" onclick="goToSpotlight(${idx})"></div>
+          `).join('');
+        }
+
+        if (counterEl) {
+          counterEl.textContent = `1 / ${spotlights.length}`;
+        }
+      }
+    } catch (e) {
+      console.warn('Could not hydrate spotlights:', e.message);
     }
 
     // 2. Research Interests

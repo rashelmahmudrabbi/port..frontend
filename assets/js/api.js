@@ -155,6 +155,7 @@ const api = {
   async references()        { return await apiFetch('references')        || FALLBACK.references; },
   async researchInterests() { return await apiFetch('research-interests')|| FALLBACK.researchInterests; },
   async spokenLanguages()   { return await apiFetch('spoken-languages')  || []; },
+  async spotlights()        { return await apiFetch('spotlights')        || []; },
   async gallery() {
     try {
       const res = await fetch(API_BASE + '/gallery', { signal: AbortSignal.timeout(8000) });

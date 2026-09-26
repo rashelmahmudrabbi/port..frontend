@@ -165,62 +165,87 @@
   <section class="section" id="about">
     <div class="container">
       <div class="about-grid">
-        <!-- Bio -->
-        <div>
-          <div class="section-header">
-            <span class="section-label">About Me</span>
-            <h2 class="section-title">AI research with a practical mindset.</h2>
+        <!-- Left: Header, Meta Pills & Interactive Bio / Statement Tabs -->
+        <div class="about-column-left">
+          <div class="section-header" style="margin-bottom: 1.25rem;">
+            <span class="section-label" id="aboutKicker">About Me</span>
+            <h2 class="section-title" id="aboutHeadline">AI research with a practical mindset.</h2>
           </div>
-          <div class="about-pills">
-            <span class="about-pill"><i class="bi bi-geo-alt-fill"></i> Rajshahi, Bangladesh</span>
-            <span class="about-pill"><i class="bi bi-cpu-fill"></i> AI &amp; Computer Vision</span>
-            <span class="about-pill"><i class="bi bi-heart-pulse-fill" style="color:var(--red)"></i> Medical Image Analysis</span>
-            <span class="about-pill"><span class="dot"></span> Open to research opportunities</span>
+          
+          <div class="about-pills" id="aboutPillsContainer">
+            <span class="about-pill"><i class="bi bi-geo-alt-fill text-primary"></i> Rajshahi, Bangladesh</span>
+            <span class="about-pill"><i class="bi bi-cpu-fill text-primary"></i> AI &amp; Computer Vision</span>
+            <span class="about-pill"><i class="bi bi-heart-pulse-fill text-danger"></i> Medical Image Analysis</span>
+            <span class="about-pill" id="aboutStatusPill"><span class="dot"></span> Open to research opportunities</span>
           </div>
-          <div class="glass-card about-bio">
-            <p>I build <strong>hybrid CNN-Transformer architectures</strong> for medical image classification and satellite remote sensing, with a focus on making deep learning models <strong>interpretable for clinical and real-world decision-making</strong>.</p>
-            <p>My B.Sc. thesis — <strong>HybSwinEff</strong> — achieved 99.69% binary accuracy and 100% staging accuracy for leukemia classification. My <strong>MRCL-ELM</strong> framework reached 98.33% on EuroSAT for satellite image classification, published in <em>Neural Computing and Applications</em> (Q1).</p>
-            <p>I am seeking <strong>PhD opportunities</strong> to advance research at the intersection of Computer Vision, Medical AI, and Explainable AI.</p>
+
+          <div class="about-card-wrapper">
+            <div class="about-nav-tabs" role="tablist">
+              <button class="about-tab-btn active" id="tabBtnBio" onclick="switchAboutTab('bio')" role="tab" aria-selected="true">
+                <i class="bi bi-person-fill"></i> Executive Bio
+              </button>
+              <button class="about-tab-btn" id="tabBtnVision" onclick="switchAboutTab('vision')" role="tab" aria-selected="false">
+                <i class="bi bi-lightbulb-fill"></i> Research Vision &amp; Statement
+              </button>
+            </div>
+
+            <!-- Tab 1: Executive Bio -->
+            <div class="about-tab-pane active" id="tabPaneBio">
+              <div class="glass-card about-bio" id="aboutBioContent">
+                <p>I build <strong>hybrid CNN-Transformer architectures</strong> for medical image classification and satellite remote sensing, with a focus on making deep learning models <strong>interpretable for clinical and real-world decision-making</strong>.</p>
+                <p>My B.Sc. thesis — <strong>HybSwinEff</strong> — achieved 99.69% binary accuracy and 100% staging accuracy for leukemia classification. My <strong>MRCL-ELM</strong> framework reached 98.33% on EuroSAT for satellite image classification, published in <em>Neural Computing and Applications</em> (Q1).</p>
+                <p>I am seeking <strong>PhD opportunities</strong> to advance research at the intersection of Computer Vision, Medical AI, and Explainable AI.</p>
+              </div>
+            </div>
+
+            <!-- Tab 2: Research Vision -->
+            <div class="about-tab-pane" id="tabPaneVision">
+              <div class="glass-card about-bio" id="aboutVisionContent">
+                <p>My research focuses on developing <strong>interpretable, high-accuracy deep learning models</strong> that address pressing real-world challenges in <strong>medical diagnostics</strong> and <strong>Earth observation</strong>.</p>
+                <p>I aim to bridge the gap between black-box neural networks and actionable clinical trust through <strong>attention mechanisms</strong> and <strong>local/global explainability frameworks</strong> (LIME, SHAP, Grad-CAM).</p>
+                <p>Looking ahead, my goal is to design scalable multi-modal models that integrate visual pathology with tabular genomics for robust, transparent healthcare applications.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Spotlight Carousel -->
+        <!-- Right: Interactive Dynamic Spotlight Carousel -->
         <div>
-          <div class="spotlight-box reveal">
+          <div class="spotlight-box reveal" id="spotlightCard">
             <div class="spotlight-header">
-              <span class="spotlight-kicker"><i class="bi bi-stars" style="color:var(--blue)"></i> &nbsp;Spotlight Highlights</span>
+              <span class="spotlight-kicker"><i class="bi bi-stars"></i> Spotlight Highlights</span>
               <div class="spotlight-nav">
-                <button onclick="prevSpotlight()" aria-label="Previous"><i class="bi bi-chevron-left"></i></button>
-                <button onclick="nextSpotlight()" aria-label="Next"><i class="bi bi-chevron-right"></i></button>
+                <button onclick="prevSpotlight()" aria-label="Previous Spotlight"><i class="bi bi-chevron-left"></i></button>
+                <button onclick="nextSpotlight()" aria-label="Next Spotlight"><i class="bi bi-chevron-right"></i></button>
               </div>
             </div>
-            <div id="spotlightCarousel">
+            <div class="spotlight-content-area" id="spotlightCarousel">
               <div class="spotlight-slide active">
-                <span class="spotlight-badge badge-pub">Top Publication</span>
+                <span class="spotlight-badge badge-pub"><i class="bi bi-journal-check"></i> Top Publication</span>
                 <h4>HYBSWINEFF: Hybrid CNN-Transformer Fusion</h4>
                 <p>Binary &amp; multi-stage blood cell cancer classification — 99.69% binary accuracy &amp; 100% staging, with LIME clinical interpretability.</p>
                 <a href="publications.html" class="btn btn-glass btn-sm"><i class="bi bi-arrow-right-circle"></i> View Paper</a>
               </div>
               <div class="spotlight-slide">
-                <span class="spotlight-badge badge-proj">Flagship AI Project</span>
+                <span class="spotlight-badge badge-proj"><i class="bi bi-cpu"></i> Flagship AI Project</span>
                 <h4>MRCL-ELM Satellite Image Classifier</h4>
                 <p>Novel hybrid deep learning system achieving 98.33% accuracy on EuroSAT with real-time LIME &amp; SHAP explainability. Published in Q1 journal.</p>
                 <a href="projects.html" class="btn btn-glass btn-sm"><i class="bi bi-arrow-right-circle"></i> Explore Code</a>
               </div>
               <div class="spotlight-slide">
-                <span class="spotlight-badge badge-xai">Research Vision</span>
+                <span class="spotlight-badge badge-xai"><i class="bi bi-eye"></i> Research Vision</span>
                 <h4>Explainable &amp; Trustworthy AI (XAI)</h4>
                 <p>Building transparent diagnostic deep learning pipelines that clinical pathologists and healthcare specialists can inspect and trust.</p>
                 <a href="#research" class="btn btn-glass btn-sm"><i class="bi bi-arrow-right-circle"></i> Research Areas</a>
               </div>
             </div>
             <div class="spotlight-footer">
-              <div class="spotlight-dots">
+              <div class="spotlight-dots" id="spotlightDots">
                 <div class="spotlight-dot active" onclick="goToSpotlight(0)"></div>
-                <div class="spotlight-dot"        onclick="goToSpotlight(1)"></div>
-                <div class="spotlight-dot"        onclick="goToSpotlight(2)"></div>
+                <div class="spotlight-dot" onclick="goToSpotlight(1)"></div>
+                <div class="spotlight-dot" onclick="goToSpotlight(2)"></div>
               </div>
-              <span style="font-size:0.78rem;color:var(--text-3)">1 / 3</span>
+              <span id="spotlightCounter" style="font-size:0.78rem;font-weight:600;color:var(--text-3)">1 / 3</span>
             </div>
           </div>
         </div>
