@@ -113,10 +113,20 @@ const FALLBACK = {
 async function apiFetch(endpoint) {
   try {
     const cacheKey = 'rmr_api_' + endpoint;
+    const cacheTimeKey = cacheKey + '_time';
     const cached = localStorage.getItem(cacheKey);
+    const cachedTime = localStorage.getItem(cacheTimeKey);
+    const CACHE_TTL = 3 * 60 * 1000; // 3 minutes TTL
+
     let cachedData = null;
+    const isCacheFresh = cached && cachedTime && (Date.now() - Number(cachedTime) < CACHE_TTL);
+
     if (cached) {
-      try { cachedData = JSON.parse(cached); } catch(e){}
+      try {
+        cachedData = JSON.parse(cached);
+        if (cachedData && cachedData.value) cachedData = cachedData.value;
+        if (cachedData && cachedData.data) cachedData = cachedData.data;
+      } catch(e){}
     }
 
     const fetchPromise = fetch(API_BASE + '/' + endpoint, {
@@ -128,13 +138,22 @@ async function apiFetch(endpoint) {
         const data = await res.json();
         const finalData = Array.isArray(data) ? data : (data.value ? data.value : (data.data || data));
         localStorage.setItem(cacheKey, JSON.stringify(finalData));
+        localStorage.setItem(cacheTimeKey, String(Date.now()));
         return finalData;
       }
       return null;
     }).catch(() => null);
 
-    if (cachedData) { if (cachedData.value) { cachedData = cachedData.value; } if (cachedData.data) { cachedData = cachedData.data; } return cachedData; }
-    return await fetchPromise;
+    // If cache is fresh and valid, return it immediately
+    if (isCacheFresh && cachedData) {
+      return cachedData;
+    }
+
+    // Otherwise, fetch latest from network (or fallback to stale cache if offline/error)
+    const freshData = await fetchPromise;
+    if (freshData !== null) return freshData;
+    if (cachedData !== null) return cachedData;
+    return null;
 
   } catch (e) {
     console.warn('[API] Falling back to static data for "' + endpoint + '":', e.message);

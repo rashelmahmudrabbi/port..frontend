@@ -1,4 +1,4 @@
-﻿/* ================================================================
+/* ================================================================
    MAIN.JS — Rashel Mahmud Rabbi Portfolio
    Apple Glassmorphism Theme · All interactivity & rendering
 ================================================================ */
@@ -614,7 +614,7 @@ async function hydrateHomePage() {
               <h4 class="edu-degree">${esc(e.degree)}</h4>
               <p class="edu-major">${esc(e.major)}</p>
               <p class="edu-inst"><i class="bi bi-bank me-1"></i>${esc(e.institution)}</p>
-              ${e.grade ? `<span class="badge badge-purple mt-2"><i class="bi bi-star-fill"></i> CGPA / Grade: ${esc(e.grade)}</span>` : ''}
+              ${e.grade ? `<div class="edu-grade"><i class="bi bi-star-fill"></i> ${esc(e.grade)}</div>` : ''}
             </div>
           </div>
         `).join('');
@@ -769,34 +769,6 @@ async function hydrateHomePage() {
       }
     }
 
-    // 7. Gallery
-    const gallery = await api.gallery();
-    if (Array.isArray(gallery) && gallery.length > 0) {
-      const galGrid = document.querySelector('#gallery .gallery-grid');
-      if (galGrid) {
-        galGrid.innerHTML = gallery.map((g, i) => {
-          if (!g.photos || !g.photos.length) return '';
-          return `
-          <div class="gallery-group reveal reveal-delay-${i % 3}">
-            <h3 class="gallery-group-title">${esc(g.title)}</h3>
-            <div class="gallery-images">
-              ${g.photos.map(img => `<img src="${esc(img.src)}" alt="${esc(img.caption)}" loading="lazy" decoding="async" onclick="openLightbox(this.src,'${esc(img.caption)}')"/>`).join('')}
-            </div>
-          </div>`;
-        }).join('');
-      }
-    }
-
-    // 8. Activities
-    const activities = await api.activities();
-    if (Array.isArray(activities) && activities.length > 0) {
-      const actList = document.querySelector('#skills .activities-list');
-      if (actList) {
-        actList.innerHTML = activities.map((a, i) =>
-          `<div class="activity-item reveal"><i class="bi bi-people-fill"></i> ${esc(a.title || a.name || a.role)}</div>`
-        ).join('');
-      }
-    }
 
     // 8a. Skills Section
     const skills = settings.skills;
@@ -970,14 +942,38 @@ async function hydrateHomePage() {
     if (Array.isArray(refs) && refs.length > 0) {
       const refGrid = document.querySelector('#references .ref-grid');
       if (refGrid) {
-        refGrid.innerHTML = refs.map((r, i) => `
-          <div class="glass-card ref-card reveal reveal-delay-${i % 3}">
-            <h4 class="ref-name">${esc(r.name)}</h4>
-            <p class="ref-designation">${esc(r.role || r.designation)}</p>
-            <p class="ref-org"><i class="bi bi-building me-1"></i>${esc(r.org || r.organization)}</p>
-            ${r.email ? `<p class="ref-email"><i class="bi bi-envelope me-1"></i><a href="mailto:${esc(r.email)}">${esc(r.email)}</a></p>` : ''}
-          </div>
-        `).join('');
+        const avatarGradients = [
+          'linear-gradient(135deg, var(--blue), var(--purple))',
+          'linear-gradient(135deg, var(--purple), var(--pink))',
+          'linear-gradient(135deg, var(--green), var(--teal))'
+        ];
+        const noteBadgeCls = ['badge-blue', 'badge-purple', 'badge-green'];
+        refGrid.innerHTML = refs.map((r, i) => {
+          const initials = (r.name || '')
+            .split(' ')
+            .filter(Boolean)
+            .map(w => w[0])
+            .slice(-2)
+            .join('')
+            .toUpperCase() || 'R';
+          const bgGrad = avatarGradients[i % avatarGradients.length];
+          const badgeCls = noteBadgeCls[i % noteBadgeCls.length];
+          const role = r.role || r.designation || '';
+          const org = r.org || r.organization || '';
+          const note = r.note || '';
+          const email = r.email || '';
+
+          return `
+            <div class="glass-card ref-card reveal reveal-delay-${i % 3}">
+              <div class="ref-avatar" style="background:${bgGrad}">${esc(initials)}</div>
+              <h4 class="ref-name">${esc(r.name)}</h4>
+              ${role ? `<p class="ref-role">${esc(role)}</p>` : ''}
+              ${org ? `<p class="ref-org">${esc(org)}</p>` : ''}
+              ${note ? `<span class="badge ${badgeCls} ref-note">${esc(note)}</span><br/><br/>` : '<br/>'}
+              ${email ? `<a class="ref-email" href="mailto:${esc(email)}"><i class="bi bi-envelope me-1"></i>${esc(email)}</a>` : ''}
+            </div>
+          `;
+        }).join('');
       }
     }
 
