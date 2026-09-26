@@ -465,6 +465,14 @@ async function hydrateHomePage() {
     if (socials.orcid) document.querySelectorAll('a.social-pill[href*="orcid"], a.footer-dock-btn[href*="orcid"]').forEach(a => a.href = socials.orcid);
     if (socials.social_x) document.querySelectorAll('a.social-pill[href*="twitter"], a.social-pill[href*="x.com"], a.footer-dock-btn[href*="twitter"], a.footer-dock-btn[href*="x.com"]').forEach(a => a.href = socials.social_x);
 
+    // Footer Custom Certification Text
+    if (settings.footerText || settings.footer_text) {
+      const footerCert = document.querySelector('.footer-cert-note');
+      if (footerCert) {
+        footerCert.innerHTML = `<i class="bi bi-shield-check"></i> ${esc(settings.footerText || settings.footer_text)}`;
+      }
+    }
+
     // CV Download Links
     const cvUrl = profile.cv_download_url || settings.cvDownloadUrl;
     if (cvUrl) {
@@ -634,6 +642,93 @@ async function hydrateHomePage() {
       }
     }
 
+    // 4b. Publications (Home Page Preview)
+    try {
+      const pubs = await api.publications();
+      if (Array.isArray(pubs) && pubs.length > 0) {
+        const pubList = document.getElementById('pubList');
+        if (pubList) {
+          const typeLabels = {
+            journal: { label: 'Journal', cls: 'badge-blue', icon: 'bi-journal-check' },
+            conference: { label: 'Conference', cls: 'badge-purple', icon: 'bi-building' },
+            thesis: { label: 'Thesis', cls: 'badge-glass', icon: 'bi-mortarboard-fill' }
+          };
+          const statusLabels = {
+            published: { label: 'Published', cls: 'badge-green', icon: 'bi-check-circle-fill' },
+            completed: { label: 'Completed', cls: 'badge-green', icon: 'bi-check-circle-fill' },
+            accepted: { label: 'Accepted', cls: 'badge-blue', icon: 'bi-check-circle' },
+            review: { label: 'Under Review', cls: 'badge-orange', icon: 'bi-hourglass-split' }
+          };
+          // Display top 3 featured / recent publications on home page
+          const displayPubs = pubs.slice(0, 3);
+          pubList.innerHTML = displayPubs.map((p, i) => {
+            const t = typeLabels[p.type] || typeLabels.conference;
+            const s = statusLabels[p.status] || statusLabels.published;
+            return `
+              <div class="glass-card pub-card reveal reveal-delay-${i % 3}">
+                <div class="pub-meta">
+                  <span class="badge ${t.cls}"><i class="bi ${t.icon}"></i> ${t.label}</span>
+                  <span class="badge ${s.cls}"><i class="bi ${s.icon}"></i> ${s.label}</span>
+                  ${p.year ? `<span class="badge badge-glass">${esc(p.year)}</span>` : ''}
+                </div>
+                <h4 class="pub-title">${esc(p.title)}</h4>
+                <p class="pub-authors">${esc(p.authors || '')}</p>
+                <p class="pub-venue">${esc(p.venue || '')}</p>
+                <div class="pub-links">
+                  ${p.doi_link ? `<a href="${esc(p.doi_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-link-45deg"></i> DOI</a>` : ''}
+                  ${p.pdf_link ? `<a href="${esc(p.pdf_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+    } catch(e) {
+      console.warn('Home pubs hydration notice:', e);
+    }
+
+    // 4c. Projects (Home Page Preview)
+    try {
+      const projects = await api.projects();
+      if (Array.isArray(projects) && projects.length > 0) {
+        const projectGrid = document.getElementById('projectGrid');
+        if (projectGrid) {
+          const catMap = {
+            thesis: { label: 'Thesis', cls: 'badge-purple', icon: 'bi-mortarboard-fill', color: 'rgba(191,90,242,0.15),rgba(0,113,227,0.15)', fgColor: 'var(--purple)', thumbIcon: 'bi-dna' },
+            research: { label: 'Research', cls: 'badge-green', icon: 'bi-graph-up', color: 'rgba(52,199,89,0.15),rgba(0,113,227,0.12)', fgColor: 'var(--green)', thumbIcon: 'bi-satellite' },
+            development: { label: 'Development', cls: 'badge-blue', icon: 'bi-code-slash', color: 'rgba(0,113,227,0.12),rgba(90,200,250,0.1)', fgColor: 'var(--blue)', thumbIcon: 'bi-laptop' }
+          };
+          projectGrid.innerHTML = projects.map((p, i) => {
+            const c = catMap[p.category] || catMap.research;
+            const techList = Array.isArray(p.tech) ? p.tech : String(p.tech || '').split(',');
+            const techHtml = techList.map(t => `<span class="tag">${esc(t.trim())}</span>`).join('');
+            const gh = p.github_link || p.githubLink;
+            const paper = p.paper_link || p.paperLink;
+            return `
+              <div class="glass-card project-card reveal reveal-delay-${i % 3}" data-category="${esc(p.category)}">
+                <div class="project-thumb" style="background:linear-gradient(135deg,${c.color})">
+                  <i class="bi ${c.thumbIcon}" style="color:${c.fgColor};position:relative;z-index:1;font-size:2.5rem"></i>
+                </div>
+                <div class="project-body">
+                  <span class="badge ${c.cls} mb-0"><i class="bi ${c.icon}"></i> ${c.label}</span>
+                  <h4 class="project-title">${esc(p.title)}</h4>
+                  <div class="project-desc">${renderRichText(p.description || '')}</div>
+                  <div class="project-tech">${techHtml}</div>
+                  <div class="project-links">
+                    ${gh ? `<a href="${esc(gh)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-github"></i> GitHub</a>` : ''}
+                    ${paper ? `<a href="${esc(paper)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> Live / Paper</a>` : ''}
+                    ${p.year ? `<span class="tag" style="align-self:center">${esc(p.year)}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+    } catch(e) {
+      console.warn('Home projects hydration notice:', e);
+    }
+
     // 5. Certifications
     const certs = await api.certifications();
     if (Array.isArray(certs) && certs.length > 0) {
@@ -701,6 +796,173 @@ async function hydrateHomePage() {
           `<div class="activity-item reveal"><i class="bi bi-people-fill"></i> ${esc(a.title || a.name || a.role)}</div>`
         ).join('');
       }
+    }
+
+    // 8a. Skills Section
+    const skills = settings.skills;
+    if (skills) {
+      const skillsContainer = document.querySelector('#skills .skills-grid');
+      if (skillsContainer) {
+        const renderTags = (arr) => (arr || []).map(t => `<span class="skill-tag">${esc(t.trim())}</span>`).join('');
+        skillsContainer.innerHTML = `
+          <div class="glass-card skill-group reveal">
+            <div class="skill-group-icon" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)"><i class="bi bi-code-slash"></i></div>
+            <div class="skill-group-label">Programming Languages</div>
+            <div class="skill-tags">${renderTags(skills.languages)}</div>
+          </div>
+          <div class="glass-card skill-group reveal reveal-delay-1">
+            <div class="skill-group-icon" style="background:var(--purple-bg);color:var(--purple);border:1px solid rgba(191,90,242,0.22)"><i class="bi bi-cpu-fill"></i></div>
+            <div class="skill-group-label">Frameworks &amp; Libraries</div>
+            <div class="skill-tags">${renderTags(skills.frameworks)}</div>
+          </div>
+          <div class="glass-card skill-group reveal reveal-delay-2">
+            <div class="skill-group-icon" style="background:var(--orange-bg);color:var(--orange);border:1px solid rgba(255,149,0,0.22)"><i class="bi bi-tools"></i></div>
+            <div class="skill-group-label">Tools &amp; Environments</div>
+            <div class="skill-tags">${renderTags(skills.tools)}</div>
+          </div>
+          <div class="glass-card skill-group reveal reveal-delay-3">
+            <div class="skill-group-icon" style="background:var(--green-bg);color:var(--green);border:1px solid rgba(52,199,89,0.22)"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="skill-group-label">Research Methods</div>
+            <div class="skill-tags">${renderTags(skills.researchMethods)}</div>
+          </div>
+        `;
+      }
+    }
+
+    // 8b. Spoken Languages
+    const spokenLangs = settings.spokenLanguages;
+    if (Array.isArray(spokenLangs) && spokenLangs.length > 0) {
+      const langGrid = document.querySelector('#skills .lang-grid');
+      if (langGrid) {
+        const flagMap = { bangla: '🇧🇩', bengali: '🇧🇩', english: '🇬🇧', hindi: '🇮🇳', urdu: '🇵🇰', arabic: '🇸🇦', french: '🇫🇷', german: '🇩🇪', spanish: '🇪🇸' };
+        langGrid.innerHTML = spokenLangs.map((l, i) => {
+          const flag = flagMap[(l.name || '').toLowerCase()] || '🌐';
+          return `
+            <div class="glass-card lang-card reveal reveal-delay-${i % 3}">
+              <span class="lang-flag">${flag}</span>
+              <div><p class="lang-name">${esc(l.name)}</p><p class="lang-level text-muted">${esc(l.level)}</p></div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // 8c. Teaching Section
+    const teaching = settings.teaching;
+    if (teaching) {
+      if (teaching.philosophy) {
+        const philosophyEl = document.querySelector('#teaching .section-desc');
+        if (philosophyEl) philosophyEl.textContent = teaching.philosophy;
+      }
+      if (Array.isArray(teaching.roles) && teaching.roles.length > 0) {
+        const rolesContainer = document.querySelector('#teaching .teaching-roles');
+        if (rolesContainer) {
+          rolesContainer.innerHTML = teaching.roles.map((r, i) => `
+            <div class="glass-card teaching-role-card reveal reveal-delay-${i % 3}">
+              <div class="teaching-role-icon"><i class="bi ${i % 2 === 0 ? 'bi-people-fill' : 'bi-display'}"></i></div>
+              <h4 class="teaching-role-title">${esc(r.title)}</h4>
+              <p class="teaching-role-desc">${esc(r.desc || r.description || '')}</p>
+            </div>
+          `).join('');
+        }
+      }
+      if (Array.isArray(teaching.areas) && teaching.areas.length > 0) {
+        const areasContainer = document.querySelector('#teaching .teaching-areas');
+        if (areasContainer) {
+          areasContainer.innerHTML = teaching.areas.map(a => `
+            <span class="teaching-area-tag">${esc(a.topic || a.title || '')}</span>
+          `).join('');
+        }
+      }
+    }
+
+    // 8d. Blog Preview (Home Page)
+    try {
+      const blogPosts = await api.blog();
+      if (Array.isArray(blogPosts) && blogPosts.length > 0) {
+        const blogGrid = document.querySelector('#blog-preview .blog-grid');
+        if (blogGrid) {
+          const catColors = { 'Explainable AI': 'badge-orange', 'Computer Vision': 'badge-blue', 'Deep Learning': 'badge-purple', 'Academic Life': 'badge-green', 'Resources': 'badge-glass' };
+          const catIcons  = { 'Explainable AI': 'bi-lightbulb-fill', 'Computer Vision': 'bi-eye-fill', 'Deep Learning': 'bi-cpu-fill', 'Academic Life': 'bi-mortarboard-fill', 'Resources': 'bi-bookmark-fill' };
+          const displayPosts = blogPosts.slice(0, 3);
+          blogGrid.innerHTML = displayPosts.map((p, i) => {
+            const cls = catColors[p.category] || 'badge-glass';
+            const icon = catIcons[p.category] || 'bi-pencil-fill';
+            return `
+              <div class="glass-card blog-card reveal reveal-delay-${i % 3}">
+                <div class="blog-card-top"><i class="bi ${icon}" style="color:var(--blue);font-size:2.5rem;position:relative;z-index:1"></i></div>
+                <div class="blog-card-body">
+                  <div class="blog-meta">
+                    <span class="badge ${cls}">${esc(p.category || 'AI')}</span>
+                    <span style="font-size:0.78rem;color:var(--text-3)">${esc(p.date || '')} · ${esc(p.readTime || p.read_time || '5 min')}</span>
+                  </div>
+                  <h4 class="blog-title">${esc(p.title)}</h4>
+                  <div class="blog-excerpt">${renderRichText(p.excerpt || '')}</div>
+                  <a href="blog.html" class="blog-read-more">Read more <i class="bi bi-arrow-right"></i></a>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+    } catch(e) {
+      console.warn('Home blog preview notice:', e);
+    }
+
+    // 8e. Gallery (Home Page) - Support both .gallery-grid and #gallery container
+    try {
+      const gallery = await api.gallery();
+      if (Array.isArray(gallery) && gallery.length > 0) {
+        const galContainer = document.querySelector('#gallery .container');
+        if (galContainer) {
+          const headerHtml = `
+            <div class="section-header">
+              <span class="section-label">Moments</span>
+              <h2 class="section-title">Achievement Gallery</h2>
+            </div>
+          `;
+          const groupsHtml = gallery.map((g, i) => {
+            const photos = g.photos || [];
+            if (!photos.length) return '';
+            return `
+              <div class="gallery-group reveal reveal-delay-${i % 3}">
+                <h3 class="gallery-group-title">${esc(g.title)}</h3>
+                ${g.year ? `<p class="gallery-group-meta"><i class="bi bi-calendar3 me-1"></i>${esc(g.year)}</p>` : ''}
+                <div class="gallery-photos">
+                  ${photos.map(p => `
+                    <div class="gallery-photo">
+                      <img src="${esc(p.src)}" alt="${esc(p.caption || g.title)}" loading="lazy" decoding="async" onclick="openLightbox(this.src,'${esc(p.caption || g.title)}')" />
+                      ${p.caption ? `<div class="gallery-photo-caption">${esc(p.caption)}</div>` : ''}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }).join('');
+          if (groupsHtml) {
+            galContainer.innerHTML = headerHtml + groupsHtml;
+          }
+        }
+      }
+    } catch(e) {
+      console.warn('Gallery hydration notice:', e);
+    }
+
+    // 8f. Co-curricular Activities
+    try {
+      const activities = await api.activities();
+      if (Array.isArray(activities) && activities.length > 0) {
+        const actList = document.querySelector('.activity-list');
+        if (actList) {
+          actList.innerHTML = activities.map((a, i) => `
+            <div class="activity-item reveal reveal-delay-${i % 3}">
+              <i class="bi bi-lightning-fill"></i> ${esc(a.text || a.title || a.name || '')}
+            </div>
+          `).join('');
+        }
+      }
+    } catch(e) {
+      console.warn('Activities hydration notice:', e);
     }
 
     // 9. References
