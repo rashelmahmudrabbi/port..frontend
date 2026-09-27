@@ -230,17 +230,46 @@ function initSpotlight() {
 
 // ── Project Filter ───────────────────────────────────────────────
 function initProjectFilter() {
-  const btns  = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.project-card[data-category]');
-  if (!btns.length) return;
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('active'));
+  const filterBars = document.querySelectorAll('.project-filter:not(#pubFilterBar)');
+  filterBars.forEach(bar => {
+    // Avoid double attaching listener
+    if (bar.dataset.filterBound === 'true') return;
+    bar.dataset.filterBound = 'true';
+
+    bar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const filter = btn.dataset.filter;
+      const filter = (btn.dataset.filter || 'all').toLowerCase();
+      const parentSection = bar.closest('section') || document;
+      const cards = parentSection.querySelectorAll('.project-card[data-category]');
       cards.forEach(card => {
-        card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
+        const cat = (card.dataset.category || '').toLowerCase();
+        card.classList.toggle('hidden', filter !== 'all' && cat !== filter);
       });
+    });
+  });
+}
+
+// ── Publication Filter ───────────────────────────────────────────
+function initPublicationFilter() {
+  const pubBar = document.getElementById('pubFilterBar');
+  if (!pubBar) return;
+  if (pubBar.dataset.filterBound === 'true') return;
+  pubBar.dataset.filterBound = 'true';
+
+  pubBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    pubBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = (btn.dataset.filter || 'all').toLowerCase();
+    const parentSection = pubBar.closest('section') || document;
+    const cards = parentSection.querySelectorAll('.pub-card[data-type]');
+    cards.forEach(card => {
+      const type = (card.dataset.type || '').toLowerCase();
+      card.classList.toggle('hidden', filter !== 'all' && type !== filter);
     });
   });
 }
@@ -341,7 +370,7 @@ async function renderPublicationsPage() {
   container.innerHTML = pubs.map((p, i) => {
     const t = typeLabels[p.type] || typeLabels.conference;
     const s = statusLabels[p.status] || statusLabels.published;
-    return `<div class="glass-card pub-card reveal reveal-delay-${i % 3}" style="margin-bottom:0">
+    return `<div class="glass-card pub-card reveal reveal-delay-${i % 3}" data-type="${esc(p.type)}" style="margin-bottom:0">
       <div class="pub-meta">
         <span class="badge ${t.cls}"><i class="bi ${t.icon}"></i> ${t.label}</span>
         <span class="badge ${s.cls}"><i class="bi ${s.icon}"></i> ${s.label}</span>
@@ -358,6 +387,7 @@ async function renderPublicationsPage() {
     </div>`;
   }).join('');
   initAbstractToggle();
+  initPublicationFilter();
   initReveal();
 }
 
@@ -387,6 +417,7 @@ async function renderProjectsPage() {
       </div>
     </div>`;
   }).join('');
+  initProjectFilter();
   initReveal();
 }
 
@@ -723,6 +754,7 @@ async function hydrateHomePage() {
               </div>
             `;
           }).join('');
+          initProjectFilter();
         }
       }
     } catch(e) {
