@@ -228,18 +228,22 @@ function initSpotlight() {
   resetSpotlightTimer();
 }
 
-// ── Research Cards Interactive Tilt ──────────────────────────────
-function initResearchCardEffects() {
-  const cards = document.querySelectorAll('.research-card');
+// ── Universal Interactive 3D Card Tilt & Hover Effects ──────────
+function initInteractiveCards() {
+  const cards = document.querySelectorAll('.research-card, .project-card, .pub-card, .edu-card, .award-card, .cert-card, .blog-card, .ref-card, .skill-group, .teaching-role-card');
   cards.forEach(card => {
+    // Avoid double attaching
+    if (card.dataset.tiltInit === 'true') return;
+    card.dataset.tiltInit = 'true';
+
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -6;
-      const rotateY = ((x - centerX) / centerX) * 6;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
       card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px)`;
     });
     card.addEventListener('mouseleave', () => {
@@ -462,6 +466,7 @@ async function renderPublicationsPage() {
   initAbstractToggle();
   initPublicationFilter();
   initReveal();
+  initInteractiveCards();
 }
 
 // Projects page
@@ -494,6 +499,7 @@ async function renderProjectsPage() {
   initProjectDescToggle();
   initProjectFilter();
   initReveal();
+  initInteractiveCards();
 }
 
 // Blog page
@@ -522,6 +528,7 @@ async function renderBlogPage() {
     </div>`;
   }).join('');
   initReveal();
+  initInteractiveCards();
 }
 
 // ── Dynamic Live Hydration from Backend / Admin Panel ──────────────
@@ -718,7 +725,7 @@ async function hydrateHomePage() {
             </div>
           `;
         }).join('');
-        initResearchCardEffects();
+        initInteractiveCards();
       }
     }
 
@@ -1110,6 +1117,7 @@ async function hydrateHomePage() {
     }
 
     initReveal();
+    initInteractiveCards();
   } catch (err) {
     console.warn('[Hydration] Notice:', err);
   }
@@ -1156,7 +1164,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFooterYear();
   initAbstractToggle();
   initProjectDescToggle();
-  initResearchCardEffects();
+  initInteractiveCards();
 
     // Dynamic Content Hydration from Admin / Backend API
   hydrateHomePage();
