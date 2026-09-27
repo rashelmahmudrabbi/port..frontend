@@ -232,6 +232,25 @@ function initSpotlight() {
 function initProjectFilter() {
   const filterBars = document.querySelectorAll('.project-filter:not(#pubFilterBar)');
   filterBars.forEach(bar => {
+    const parentSection = bar.closest('section') || document;
+    const cards = parentSection.querySelectorAll('.project-card[data-category]');
+
+    // Dynamically update counts on the filter buttons if on projects page
+    if (cards.length > 0 && bar.id === 'projectFilterBar') {
+      const counts = { all: cards.length, thesis: 0, research: 0, development: 0 };
+      cards.forEach(card => {
+        const cat = (card.dataset.category || '').toLowerCase();
+        if (counts[cat] !== undefined) counts[cat]++;
+      });
+
+      bar.querySelectorAll('.filter-btn').forEach(btn => {
+        const filter = (btn.dataset.filter || 'all').toLowerCase();
+        const count = counts[filter] !== undefined ? counts[filter] : 0;
+        const baseLabel = filter === 'all' ? 'All' : (filter.charAt(0).toUpperCase() + filter.slice(1));
+        btn.textContent = `${baseLabel} (${count})`;
+      });
+    }
+
     // Avoid double attaching listener
     if (bar.dataset.filterBound === 'true') return;
     bar.dataset.filterBound = 'true';
@@ -242,9 +261,8 @@ function initProjectFilter() {
       bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = (btn.dataset.filter || 'all').toLowerCase();
-      const parentSection = bar.closest('section') || document;
-      const cards = parentSection.querySelectorAll('.project-card[data-category]');
-      cards.forEach(card => {
+      const currentCards = parentSection.querySelectorAll('.project-card[data-category]');
+      currentCards.forEach(card => {
         const cat = (card.dataset.category || '').toLowerCase();
         card.classList.toggle('hidden', filter !== 'all' && cat !== filter);
       });
@@ -256,6 +274,26 @@ function initProjectFilter() {
 function initPublicationFilter() {
   const pubBar = document.getElementById('pubFilterBar');
   if (!pubBar) return;
+
+  const parentSection = pubBar.closest('section') || document;
+  const cards = parentSection.querySelectorAll('.pub-card[data-type]');
+  
+  // Dynamically update counts on the filter buttons based on actual rendered publications
+  if (cards.length > 0) {
+    const counts = { all: cards.length, journal: 0, conference: 0, thesis: 0 };
+    cards.forEach(card => {
+      const type = (card.dataset.type || '').toLowerCase();
+      if (counts[type] !== undefined) counts[type]++;
+    });
+
+    pubBar.querySelectorAll('.filter-btn').forEach(btn => {
+      const filter = (btn.dataset.filter || 'all').toLowerCase();
+      const count = counts[filter] !== undefined ? counts[filter] : 0;
+      const baseLabel = filter === 'all' ? 'All' : (filter === 'journal' ? 'Journals' : (filter === 'conference' ? 'Conferences' : 'Thesis'));
+      btn.textContent = `${baseLabel} (${count})`;
+    });
+  }
+
   if (pubBar.dataset.filterBound === 'true') return;
   pubBar.dataset.filterBound = 'true';
 
@@ -265,9 +303,8 @@ function initPublicationFilter() {
     pubBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const filter = (btn.dataset.filter || 'all').toLowerCase();
-    const parentSection = pubBar.closest('section') || document;
-    const cards = parentSection.querySelectorAll('.pub-card[data-type]');
-    cards.forEach(card => {
+    const currentCards = parentSection.querySelectorAll('.pub-card[data-type]');
+    currentCards.forEach(card => {
       const type = (card.dataset.type || '').toLowerCase();
       card.classList.toggle('hidden', filter !== 'all' && type !== filter);
     });
@@ -358,6 +395,22 @@ function initAbstractToggle() {
   });
 }
 
+// ── Project Description Toggle ───────────────────────────────────
+function initProjectDescToggle() {
+  document.querySelectorAll('.project-desc-toggle').forEach(btn => {
+    if (btn.dataset.toggleBound === 'true') return;
+    btn.dataset.toggleBound = 'true';
+    btn.addEventListener('click', () => {
+      const desc = btn.previousElementSibling;
+      if (!desc) return;
+      const exp = desc.classList.toggle('expanded');
+      btn.innerHTML = exp 
+        ? 'Show less <i class="bi bi-chevron-up"></i>' 
+        : 'Read full description <i class="bi bi-chevron-down"></i>';
+    });
+  });
+}
+
 // ── Page-Specific Rendering ───────────────────────────────────────
 // Publications page
 async function renderPublicationsPage() {
@@ -408,6 +461,7 @@ async function renderProjectsPage() {
         <span class="badge ${c.cls} mb-0"><i class="bi ${c.icon}"></i> ${c.label}</span>
         <h4 class="project-title">${esc(p.title)}</h4>
         <div class="project-desc">${renderRichText(p.description || '')}</div>
+        ${(p.description && p.description.length > 120) ? `<button class="project-desc-toggle" type="button">Read full description <i class="bi bi-chevron-down"></i></button>` : ''}
         <div class="project-tech">${(Array.isArray(p.tech) ? p.tech : String(p.tech || '').split(',')).map(t => `<span class="tag">${esc(t.trim())}</span>`).join('')}</div>
         <div class="project-links">
           ${(p.github_link||p.githubLink) ? `<a href="${esc(p.github_link||p.githubLink)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-github"></i> GitHub</a>` : ''}
@@ -417,6 +471,7 @@ async function renderProjectsPage() {
       </div>
     </div>`;
   }).join('');
+  initProjectDescToggle();
   initProjectFilter();
   initReveal();
 }
@@ -744,6 +799,7 @@ async function hydrateHomePage() {
                   <span class="badge ${c.cls} mb-0"><i class="bi ${c.icon}"></i> ${c.label}</span>
                   <h4 class="project-title">${esc(p.title)}</h4>
                   <div class="project-desc">${renderRichText(p.description || '')}</div>
+                  ${(p.description && p.description.length > 120) ? `<button class="project-desc-toggle" type="button">Read full description <i class="bi bi-chevron-down"></i></button>` : ''}
                   <div class="project-tech">${techHtml}</div>
                   <div class="project-links">
                     ${gh ? `<a href="${esc(gh)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-github"></i> GitHub</a>` : ''}
@@ -754,6 +810,7 @@ async function hydrateHomePage() {
               </div>
             `;
           }).join('');
+          initProjectDescToggle();
           initProjectFilter();
         }
       }
@@ -1055,6 +1112,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initFooterYear();
   initAbstractToggle();
+  initProjectDescToggle();
 
     // Dynamic Content Hydration from Admin / Backend API
   hydrateHomePage();
