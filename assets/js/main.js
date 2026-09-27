@@ -228,6 +228,26 @@ function initSpotlight() {
   resetSpotlightTimer();
 }
 
+// ── Research Cards Interactive Tilt ──────────────────────────────
+function initResearchCardEffects() {
+  const cards = document.querySelectorAll('.research-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -6;
+      const rotateY = ((x - centerX) / centerX) * 6;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
 // ── Project Filter ───────────────────────────────────────────────
 function initProjectFilter() {
   const filterBars = document.querySelectorAll('.project-filter:not(#pubFilterBar)');
@@ -678,13 +698,27 @@ async function hydrateHomePage() {
     if (Array.isArray(interests) && interests.length > 0) {
       const grid = document.getElementById('researchGrid');
       if (grid) {
-        grid.innerHTML = interests.map((r, i) => `
-          <div class="glass-card research-card reveal reveal-delay-${i % 3}">
-            <div class="research-icon"><i class="bi ${r.icon ? (r.icon.startsWith('bi-') ? r.icon : 'bi-' + r.icon) : 'bi-stars'}"></i></div>
-            <h4>${esc(r.topic)}</h4>
-            <p>${esc(r.desc || r.description || '')}</p>
-          </div>
-        `).join('');
+        const topicTags = {
+          'computer vision': { badge: 'Vision AI', icon: 'bi-cpu' },
+          'medical image analysis': { badge: 'Healthcare', icon: 'bi-activity' },
+          'deep learning': { badge: 'Architectures', icon: 'bi-layers' },
+          'explainable ai': { badge: 'Interpretability', icon: 'bi-shield-check' },
+          'remote sensing': { badge: 'Geospatial', icon: 'bi-satellite' },
+          'natural language processing': { badge: 'NLP & LLM', icon: 'bi-translate' }
+        };
+        grid.innerHTML = interests.map((r, i) => {
+          const key = (r.topic || '').trim().toLowerCase();
+          const tagInfo = topicTags[key] || { badge: 'Specialization', icon: 'bi-stars' };
+          return `
+            <div class="glass-card research-card reveal reveal-delay-${i % 3}">
+              <div class="research-icon"><i class="bi ${r.icon ? (r.icon.startsWith('bi-') ? r.icon : 'bi-' + r.icon) : 'bi-stars'}"></i></div>
+              <h4>${esc(r.topic)}</h4>
+              <p>${esc(r.desc || r.description || '')}</p>
+              <span class="research-card-badge"><i class="bi ${tagInfo.icon}"></i> ${esc(tagInfo.badge)}</span>
+            </div>
+          `;
+        }).join('');
+        initResearchCardEffects();
       }
     }
 
@@ -1122,6 +1156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFooterYear();
   initAbstractToggle();
   initProjectDescToggle();
+  initResearchCardEffects();
 
     // Dynamic Content Hydration from Admin / Backend API
   hydrateHomePage();
