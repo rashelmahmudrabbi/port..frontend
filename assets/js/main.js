@@ -745,8 +745,10 @@ async function hydrateHomePage() {
             accepted: { label: 'Accepted', cls: 'badge-blue', icon: 'bi-check-circle' },
             review: { label: 'Under Review', cls: 'badge-orange', icon: 'bi-hourglass-split' }
           };
-          // Display top 3 featured / recent publications on home page
-          const displayPubs = pubs.slice(0, 3);
+          // Display top 3 publications on home page (prioritize admin-selected featured items, then latest)
+          const featuredPubs = pubs.filter(p => p.featured === true || p.featured === 'true' || p.featured === 1);
+          const otherPubs = pubs.filter(p => !p.featured || p.featured === 'false' || p.featured === 0);
+          const displayPubs = [...featuredPubs, ...otherPubs].slice(0, 3);
           pubList.innerHTML = displayPubs.map((p, i) => {
             const t = typeLabels[p.type] || typeLabels.conference;
             const s = statusLabels[p.status] || statusLabels.published;
@@ -784,8 +786,10 @@ async function hydrateHomePage() {
             research: { label: 'Research', cls: 'badge-green', icon: 'bi-graph-up', color: 'rgba(52,199,89,0.15),rgba(0,113,227,0.12)', fgColor: 'var(--green)', thumbIcon: 'bi-satellite' },
             development: { label: 'Development', cls: 'badge-blue', icon: 'bi-code-slash', color: 'rgba(0,113,227,0.12),rgba(90,200,250,0.1)', fgColor: 'var(--blue)', thumbIcon: 'bi-laptop' }
           };
-          // Display top 3 featured / recent projects on home page
-          const displayProjects = projects.slice(0, 3);
+          // Display top 3 projects on home page (prioritize admin-selected featured items, then latest)
+          const featuredProjects = projects.filter(p => p.featured === true || p.featured === 'true' || p.featured === 1);
+          const otherProjects = projects.filter(p => !p.featured || p.featured === 'false' || p.featured === 0);
+          const displayProjects = [...featuredProjects, ...otherProjects].slice(0, 3);
           projectGrid.innerHTML = displayProjects.map((p, i) => {
             const c = catMap[p.category] || catMap.research;
             const techList = Array.isArray(p.tech) ? p.tech : String(p.tech || '').split(',');
@@ -947,7 +951,10 @@ async function hydrateHomePage() {
         if (blogGrid) {
           const catColors = { 'Explainable AI': 'badge-orange', 'Computer Vision': 'badge-blue', 'Deep Learning': 'badge-purple', 'Academic Life': 'badge-green', 'Resources': 'badge-glass' };
           const catIcons  = { 'Explainable AI': 'bi-lightbulb-fill', 'Computer Vision': 'bi-eye-fill', 'Deep Learning': 'bi-cpu-fill', 'Academic Life': 'bi-mortarboard-fill', 'Resources': 'bi-bookmark-fill' };
-          const displayPosts = blogPosts.slice(0, 3);
+          // Display top 3 blog posts on home page (prioritize admin-selected featured items, then latest)
+          const featuredPosts = blogPosts.filter(p => p.featured === true || p.featured === 'true' || p.featured === 1);
+          const otherPosts = blogPosts.filter(p => !p.featured || p.featured === 'false' || p.featured === 0);
+          const displayPosts = [...featuredPosts, ...otherPosts].slice(0, 3);
           blogGrid.innerHTML = displayPosts.map((p, i) => {
             const cls = catColors[p.category] || 'badge-glass';
             const icon = catIcons[p.category] || 'bi-pencil-fill';
