@@ -965,7 +965,9 @@ async function hydrateHomePage() {
       if (Array.isArray(teaching.roles) && teaching.roles.length > 0) {
         const rolesContainer = document.querySelector('#teaching .teaching-roles');
         if (rolesContainer) {
-          rolesContainer.innerHTML = teaching.roles.map((r, i) => `
+          const isDedicatedTeachingPage = window.location.pathname.endsWith('teaching.html');
+          const rolesToDisplay = isDedicatedTeachingPage ? teaching.roles : teaching.roles.slice(0, 2);
+          rolesContainer.innerHTML = rolesToDisplay.map((r, i) => `
             <div class="glass-card teaching-role-card reveal reveal-delay-${i % 3}">
               <div class="teaching-role-icon"><i class="bi ${i % 2 === 0 ? 'bi-people-fill' : 'bi-display'}"></i></div>
               <h4 class="teaching-role-title">${esc(r.title)}</h4>
