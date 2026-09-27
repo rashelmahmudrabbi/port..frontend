@@ -784,7 +784,9 @@ async function hydrateHomePage() {
             research: { label: 'Research', cls: 'badge-green', icon: 'bi-graph-up', color: 'rgba(52,199,89,0.15),rgba(0,113,227,0.12)', fgColor: 'var(--green)', thumbIcon: 'bi-satellite' },
             development: { label: 'Development', cls: 'badge-blue', icon: 'bi-code-slash', color: 'rgba(0,113,227,0.12),rgba(90,200,250,0.1)', fgColor: 'var(--blue)', thumbIcon: 'bi-laptop' }
           };
-          projectGrid.innerHTML = projects.map((p, i) => {
+          // Display top 3 featured / recent projects on home page
+          const displayProjects = projects.slice(0, 3);
+          projectGrid.innerHTML = displayProjects.map((p, i) => {
             const c = catMap[p.category] || catMap.research;
             const techList = Array.isArray(p.tech) ? p.tech : String(p.tech || '').split(',');
             const techHtml = techList.map(t => `<span class="tag">${esc(t.trim())}</span>`).join('');
