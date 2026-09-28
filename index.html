@@ -378,50 +378,21 @@
         <p class="section-desc">Peer-reviewed research in Computer Vision, Medical AI, and Remote Sensing.</p>
       </div>
       <div class="pub-list" id="pubList">
-        <!-- Journal -->
+        <!-- Latest Featured Journal Publication -->
         <div class="glass-card pub-card reveal">
           <div class="pub-meta">
+            <span class="pub-number" style="font-size:0.88rem;font-weight:700;color:var(--text-3);margin-right:0.25rem">[1]</span>
             <span class="badge badge-blue"><i class="bi bi-journal-check"></i> Journal</span>
             <span class="badge badge-green"><i class="bi bi-check-circle-fill"></i> Published</span>
             <span class="badge badge-glass">Q1 · Springer · 2026</span>
           </div>
-          <h4 class="pub-title">Enhancing Multi-Class Satellite Image Classification with MRCL-ELM: • Hybrid Explainable Deep Learning Approach</h4>
+          <h4 class="pub-title">Enhancing Multi-Class Satellite Image Classification with MRCL-ELM: A Hybrid Explainable Deep Learning Approach</h4>
           <p class="pub-authors">Md Ashik Ahmmed, <strong>Rashel Mahmud Rabbi</strong>, Md Shafiuzzaman, Md. Faysal Ahamed, Md Nahiduzzaman &amp; Muhammad E.H. Chowdhury</p>
           <p class="pub-venue">Neural Computing and Applications, Springer</p>
           <div class="pub-links">
-            <a href="https://link.springer.com/article/10.1007/s00521-026-12192-y" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-link-45deg"></i> DOI</a>
             <a href="https://drive.google.com/file/d/1B8MU_tQevLZyDqzm3KHu28c4sDnOmFRZ/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
-          </div>
-        </div>
-
-        <!-- Conference -->
-        <div class="glass-card pub-card reveal reveal-delay-1">
-          <div class="pub-meta">
-            <span class="badge badge-purple"><i class="bi bi-building"></i> Conference</span>
-            <span class="badge badge-green"><i class="bi bi-check-circle-fill"></i> Published</span>
-            <span class="badge badge-glass">IEEE · 2025</span>
-          </div>
-          <h4 class="pub-title">An Explainable Approach to Land-Use Classification Using CNN-LSTM and LIME</h4>
-          <p class="pub-authors">Md Ashik Ahmmed; <strong>Rashel Mahmud Rabbi</strong>; Md Shafiuzzaman; Tithi Podder; Most. Tasnina Jaman; Afsana Tasnim</p>
-          <p class="pub-venue">2025 International Conference on Quantum Photonics, Artificial Intelligence, and Networking (QPAIN), Rangpur, Bangladesh</p>
-          <div class="pub-links">
-            <a href="https://ieeexplore.ieee.org/document/11172239" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-link-45deg"></i> DOI</a>
-            <a href="https://drive.google.com/file/d/1bRxEvEslm9k4yLljqfe7U8iZJb9wUWYS/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
-          </div>
-        </div>
-
-        <!-- Thesis -->
-        <div class="glass-card pub-card reveal reveal-delay-2">
-          <div class="pub-meta">
-            <span class="badge" style="background:rgba(191,90,242,0.12);color:var(--purple);border:1px solid rgba(191,90,242,0.25)"><i class="bi bi-mortarboard-fill"></i> Thesis</span>
-            <span class="badge badge-green"><i class="bi bi-check-circle-fill"></i> Completed</span>
-            <span class="badge badge-glass">B.Sc. · 2025</span>
-          </div>
-          <h4 class="pub-title">HYBSWINEFF: Hybrid CNN-Transformer Fusion for Binary and Multi-Stage Blood Cell Cancer Classification</h4>
-          <p class="pub-authors"><strong>Rashel Mahmud Rabbi</strong></p>
-          <p class="pub-venue">B.Sc. Thesis, Department of CSE, North Bengal International University</p>
-          <div class="pub-links">
-            <a href="https://drive.google.com/file/d/10IeYdPdJPAQw3afi7ItVoYfZRQgBWlhm/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> Read Thesis</a>
+            <a href="https://link.springer.com/article/10.1007/s00521-026-12192-y" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> DOI / IEEE</a>
+            <button type="button" class="btn btn-outline btn-sm" onclick="openCiteModal('Enhancing Multi-Class Satellite Image Classification with MRCL-ELM: A Hybrid Explainable Deep Learning Approach', 'Md Ashik Ahmmed, Rashel Mahmud Rabbi, Md Shafiuzzaman, Md. Faysal Ahamed, Md Nahiduzzaman, Muhammad E.H. Chowdhury', 'Neural Computing and Applications, Springer', '2026', 'journal', 'https://link.springer.com/article/10.1007/s00521-026-12192-y')"><i class="bi bi-quote"></i> Cite</button>
           </div>
         </div>
       </div>
@@ -879,6 +850,21 @@
     <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
     <img id="lightboxImg" src="" alt="" />
     <p id="lightboxCaption" class="lightbox-caption"></p>
+  </div>
+
+  <!-- Citation Modal -->
+  <div class="cite-modal" id="citeModal" role="dialog" aria-modal="true" aria-labelledby="citeModalTitle">
+    <div class="cite-modal-card">
+      <div class="cite-modal-header">
+        <div class="cite-modal-title" id="citeModalTitle"><i class="bi bi-quote"></i> Cite this Publication</div>
+        <button class="cite-modal-close" onclick="closeCiteModal()" aria-label="Close modal"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="cite-code-box" id="citeModalCode"></div>
+      <div class="cite-modal-footer">
+        <button class="btn btn-glass btn-sm" onclick="closeCiteModal()">Close</button>
+        <button class="btn btn-primary btn-sm" id="copyCiteBtn" onclick="copyCitationText()"><i class="bi bi-clipboard"></i> Copy BibTeX</button>
+      </div>
+    </div>
   </div>
 
   <script src="assets/js/config.js"></script>

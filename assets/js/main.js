@@ -302,12 +302,14 @@ function initPublicationFilter() {
   const parentSection = pubBar.closest('section') || document;
   const cards = parentSection.querySelectorAll('.pub-card[data-type]');
   
-  // Dynamically update counts on the filter buttons based on actual rendered publications
+  // Dynamically update counts on the filter buttons and stat cards based on actual rendered publications
   if (cards.length > 0) {
     const counts = { all: cards.length, journal: 0, conference: 0, thesis: 0 };
+    let q1Count = 0;
     cards.forEach(card => {
       const type = (card.dataset.type || '').toLowerCase();
       if (counts[type] !== undefined) counts[type]++;
+      if (card.textContent.includes('Q1') || (card.dataset.venue || '').includes('Neural Computing')) q1Count++;
     });
 
     pubBar.querySelectorAll('.filter-btn').forEach(btn => {
@@ -316,6 +318,15 @@ function initPublicationFilter() {
       const baseLabel = filter === 'all' ? 'All' : (filter === 'journal' ? 'Journals' : (filter === 'conference' ? 'Conferences' : 'Thesis'));
       btn.textContent = `${baseLabel} (${count})`;
     });
+
+    const elPublished = document.getElementById('statPublishedPapers');
+    if (elPublished) elPublished.textContent = counts.journal + counts.conference;
+    const elConf = document.getElementById('statConferences');
+    if (elConf) elConf.textContent = counts.conference;
+    const elThesis = document.getElementById('statThesis');
+    if (elThesis) elThesis.textContent = counts.thesis;
+    const elQ1 = document.getElementById('statQ1');
+    if (elQ1) elQ1.textContent = q1Count || 1;
   }
 
   if (pubBar.dataset.filterBound === 'true') return;
@@ -407,14 +418,80 @@ function initFooterYear() {
   if (el) el.textContent = new Date().getFullYear();
 }
 
+// ── Citation Generator & Modal ──────────────────────────────────
+function generateBibtex(pub) {
+  const type = (pub.type || '').toLowerCase();
+  const authors = (pub.authors || 'Rabbi, Rashel Mahmud').replace(/;/g, ' and');
+  const title = pub.title || 'Untitled';
+  const year = pub.year || '2025';
+  const cleanKey = ((pub.title || 'pub').split(/[\s:,-]+/)[0] || 'paper').toLowerCase() + year;
+  
+  if (type === 'journal') {
+    return `@article{${cleanKey},
+  author    = {${authors}},
+  title     = {${title}},
+  journal   = {${pub.venue || 'Neural Computing and Applications'}},
+  year      = {${year}}${pub.doi_link || pub.doiLink ? `,\n  doi       = {${pub.doi_link || pub.doiLink}}` : ''}
+}`;
+  } else if (type === 'conference') {
+    return `@inproceedings{${cleanKey},
+  author    = {${authors}},
+  title     = {${title}},
+  booktitle = {${pub.venue || 'International Conference on Quantum Photonics, Artificial Intelligence, and Networking (QPAIN)'}},
+  year      = {${year}}${pub.doi_link || pub.doiLink ? `,\n  doi       = {${pub.doi_link || pub.doiLink}}` : ''}
+}`;
+  } else {
+    return `@mastersthesis{${cleanKey},
+  author    = {${authors}},
+  title     = {${title}},
+  school    = {${pub.venue || 'North Bengal International University'}},
+  year      = {${year}}
+}`;
+  }
+}
+
+let activeCitationText = '';
+window.openCiteModal = function(title, authors, venue, year, type, doi) {
+  const bib = generateBibtex({ title, authors, venue, year, type, doi_link: doi });
+  activeCitationText = bib;
+  const modal = document.getElementById('citeModal');
+  const codeBox = document.getElementById('citeModalCode');
+  const btn = document.getElementById('copyCiteBtn');
+  if (codeBox) codeBox.textContent = bib;
+  if (btn) btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy BibTeX';
+  if (modal) modal.classList.add('active');
+};
+
+window.closeCiteModal = function() {
+  const modal = document.getElementById('citeModal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.copyCitationText = function() {
+  if (!activeCitationText) return;
+  navigator.clipboard.writeText(activeCitationText).then(() => {
+    const btn = document.getElementById('copyCiteBtn');
+    if (btn) btn.innerHTML = '<i class="bi bi-check-lg text-success"></i> Copied!';
+    setTimeout(() => {
+      if (btn) btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy BibTeX';
+    }, 2500);
+  }).catch(() => {
+    alert('Citation copied to clipboard!');
+  });
+};
+
 // ── Pub Abstract Toggle ──────────────────────────────────────────
 function initAbstractToggle() {
   document.querySelectorAll('.pub-abstract-toggle').forEach(btn => {
+    if (btn.dataset.toggleBound === 'true') return;
+    btn.dataset.toggleBound = 'true';
     btn.addEventListener('click', () => {
       const abs = btn.previousElementSibling;
       if (!abs) return;
       const exp = abs.classList.toggle('expanded');
-      btn.textContent = exp ? 'Show less ↑' : 'Show abstract ↓';
+      btn.innerHTML = exp 
+        ? '<i class="bi bi-chevron-up"></i> Hide Abstract' 
+        : '<i class="bi bi-chevron-right"></i> Abstract';
     });
   });
 }
@@ -447,19 +524,31 @@ async function renderPublicationsPage() {
   container.innerHTML = pubs.map((p, i) => {
     const t = typeLabels[p.type] || typeLabels.conference;
     const s = statusLabels[p.status] || statusLabels.published;
-    return `<div class="glass-card pub-card reveal reveal-delay-${i % 3}" data-type="${esc(p.type)}" style="margin-bottom:0">
+    const doi = p.doi_link || p.doiLink || '';
+    const pdf = p.pdf_link || p.pdfLink || '';
+    const safeTitle = (p.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    const safeAuthors = (p.authors || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    const safeVenue = (p.venue || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    return `<div class="glass-card pub-card reveal reveal-delay-${i % 3}" data-type="${esc(p.type)}" data-venue="${esc(p.venue || '')}" style="margin-bottom:0">
       <div class="pub-meta">
+        <span class="pub-number" style="font-size:0.88rem;font-weight:700;color:var(--text-3);margin-right:0.25rem">[${i + 1}]</span>
         <span class="badge ${t.cls}"><i class="bi ${t.icon}"></i> ${t.label}</span>
         <span class="badge ${s.cls}"><i class="bi ${s.icon}"></i> ${s.label}</span>
-        ${p.year ? `<span class="badge badge-glass">${p.year}</span>` : ''}
+        ${p.year ? `<span class="badge badge-glass">${esc(p.year)}</span>` : ''}
       </div>
       <h4 class="pub-title">${esc(p.title)}</h4>
       <p class="pub-authors">${esc(p.authors || '')}</p>
       <p class="pub-venue">${esc(p.venue || '')}</p>
-      ${p.abstract ? `<div class="pub-abstract">${renderRichText(p.abstract)}</div><button class="pub-abstract-toggle" style="font-size:0.8rem;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;margin-bottom:1rem">Show abstract ↓</button>` : ''}
+      ${p.abstract ? `
+        <div style="margin-bottom:0.75rem">
+          <button class="pub-abstract-toggle" type="button"><i class="bi bi-chevron-right"></i> Abstract</button>
+          <div class="pub-abstract">${renderRichText(p.abstract)}</div>
+        </div>
+      ` : ''}
       <div class="pub-links">
-        ${p.doi_link ? `<a href="${esc(p.doi_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-link-45deg"></i> DOI</a>` : ''}
-        ${p.pdf_link ? `<a href="${esc(p.pdf_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
+        ${pdf ? `<a href="${esc(pdf)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
+        ${doi ? `<a href="${esc(doi)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> DOI / IEEE</a>` : ''}
+        <button type="button" class="btn btn-outline btn-sm" onclick="openCiteModal('${safeTitle}', '${safeAuthors}', '${safeVenue}', '${esc(p.year || '')}', '${esc(p.type || '')}', '${esc(doi)}')"><i class="bi bi-quote"></i> Cite</button>
       </div>
     </div>`;
   }).join('');
@@ -786,13 +875,18 @@ async function hydrateHomePage() {
             accepted: { label: 'Accepted', cls: 'badge-blue', icon: 'bi-check-circle' },
             review: { label: 'Under Review', cls: 'badge-orange', icon: 'bi-hourglass-split' }
           };
-          // Display top 3 publications on home page (prioritize admin-selected featured items, then latest)
+          // Display latest 1 publication on home page preview
           const featuredPubs = pubs.filter(p => p.featured === true || p.featured === 'true' || p.featured === 1);
           const otherPubs = pubs.filter(p => !p.featured || p.featured === 'false' || p.featured === 0);
-          const displayPubs = [...featuredPubs, ...otherPubs].slice(0, 3);
+          const displayPubs = [...featuredPubs, ...otherPubs].slice(0, 1);
           pubList.innerHTML = displayPubs.map((p, i) => {
             const t = typeLabels[p.type] || typeLabels.conference;
             const s = statusLabels[p.status] || statusLabels.published;
+            const doi = p.doi_link || p.doiLink || '';
+            const pdf = p.pdf_link || p.pdfLink || '';
+            const safeTitle = (p.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeAuthors = (p.authors || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeVenue = (p.venue || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
             return `
               <div class="glass-card pub-card reveal reveal-delay-${i % 3}">
                 <div class="pub-meta">
@@ -804,8 +898,9 @@ async function hydrateHomePage() {
                 <p class="pub-authors">${esc(p.authors || '')}</p>
                 <p class="pub-venue">${esc(p.venue || '')}</p>
                 <div class="pub-links">
-                  ${p.doi_link ? `<a href="${esc(p.doi_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-link-45deg"></i> DOI</a>` : ''}
-                  ${p.pdf_link ? `<a href="${esc(p.pdf_link)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
+                  ${doi ? `<a href="${esc(doi)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> DOI / IEEE</a>` : ''}
+                  ${pdf ? `<a href="${esc(pdf)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
+                  <button type="button" class="btn btn-outline btn-sm" onclick="openCiteModal('${safeTitle}', '${safeAuthors}', '${safeVenue}', '${esc(p.year || '')}', '${esc(p.type || '')}', '${esc(doi)}')"><i class="bi bi-quote"></i> Cite</button>
                 </div>
               </div>
             `;
