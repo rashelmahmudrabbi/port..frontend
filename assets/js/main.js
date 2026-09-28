@@ -548,7 +548,6 @@ async function renderPublicationsPage() {
       <div class="pub-links">
         ${pdf ? `<a href="${esc(pdf)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
         ${doi ? `<a href="${esc(doi)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> DOI / IEEE</a>` : ''}
-        <button type="button" class="btn btn-outline btn-sm" onclick="openCiteModal('${safeTitle}', '${safeAuthors}', '${safeVenue}', '${esc(p.year || '')}', '${esc(p.type || '')}', '${esc(doi)}')"><i class="bi bi-quote"></i> Cite</button>
       </div>
     </div>`;
   }).join('');
@@ -900,7 +899,6 @@ async function hydrateHomePage() {
                 <div class="pub-links">
                   ${doi ? `<a href="${esc(doi)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> DOI / IEEE</a>` : ''}
                   ${pdf ? `<a href="${esc(pdf)}" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>` : ''}
-                  <button type="button" class="btn btn-outline btn-sm" onclick="openCiteModal('${safeTitle}', '${safeAuthors}', '${safeVenue}', '${esc(p.year || '')}', '${esc(p.type || '')}', '${esc(doi)}')"><i class="bi bi-quote"></i> Cite</button>
                 </div>
               </div>
             `;

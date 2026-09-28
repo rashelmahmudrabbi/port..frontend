@@ -136,24 +136,28 @@
           <a class="social-pill" href="https://x.com/rashel_m_rabbi" target="_blank" rel="noopener noreferrer"><i class="bi bi-twitter-x"></i><span>X</span></a>
         </div>
 
-        <!-- Stats -->
+        <!-- Stats (Interactive & Dynamic) -->
         <div class="hero-stats reveal reveal-delay-4">
-          <div class="hero-stat">
-            <div class="stat-num counter" data-target="3">0</div>
-            <div class="stat-label">Publications</div>
-          </div>
-          <div class="hero-stat">
-            <div class="stat-num counter" data-target="7">0</div>
-            <div class="stat-label">Projects</div>
-          </div>
-          <div class="hero-stat">
+          <a class="hero-stat" href="#publications" title="View Published Papers">
+            <div class="stat-icon"><i class="bi bi-journal-check"></i></div>
             <div class="stat-num counter" data-target="2">0</div>
-            <div class="stat-label">Awards</div>
-          </div>
-          <div class="hero-stat">
-            <div class="stat-num counter" data-target="3.87" data-decimal="2">0</div>
-            <div class="stat-label">B.Sc CGPA</div>
-          </div>
+            <div class="stat-label">Published Papers</div>
+          </a>
+          <a class="hero-stat" href="projects.html" title="View Thesis &amp; Research">
+            <div class="stat-icon"><i class="bi bi-mortarboard"></i></div>
+            <div class="stat-num counter" data-target="1">0</div>
+            <div class="stat-label">B.Sc Thesis</div>
+          </a>
+          <a class="hero-stat" href="#projects" title="Explore AI Projects">
+            <div class="stat-icon"><i class="bi bi-cpu"></i></div>
+            <div class="stat-num counter" data-target="7">0</div>
+            <div class="stat-label">AI Projects</div>
+          </a>
+          <a class="hero-stat" href="#awards" title="View Honors &amp; Awards">
+            <div class="stat-icon"><i class="bi bi-trophy"></i></div>
+            <div class="stat-num counter" data-target="2">0</div>
+            <div class="stat-label">Honors &amp; Awards</div>
+          </a>
         </div>
       </div>
     </div>
@@ -392,7 +396,6 @@
           <div class="pub-links">
             <a href="https://drive.google.com/file/d/1B8MU_tQevLZyDqzm3KHu28c4sDnOmFRZ/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-glass btn-sm"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
             <a href="https://link.springer.com/article/10.1007/s00521-026-12192-y" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-up-right"></i> DOI / IEEE</a>
-            <button type="button" class="btn btn-outline btn-sm" onclick="openCiteModal('Enhancing Multi-Class Satellite Image Classification with MRCL-ELM: A Hybrid Explainable Deep Learning Approach', 'Md Ashik Ahmmed, Rashel Mahmud Rabbi, Md Shafiuzzaman, Md. Faysal Ahamed, Md Nahiduzzaman, Muhammad E.H. Chowdhury', 'Neural Computing and Applications, Springer', '2026', 'journal', 'https://link.springer.com/article/10.1007/s00521-026-12192-y')"><i class="bi bi-quote"></i> Cite</button>
           </div>
         </div>
       </div>
@@ -850,21 +853,6 @@
     <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
     <img id="lightboxImg" src="" alt="" />
     <p id="lightboxCaption" class="lightbox-caption"></p>
-  </div>
-
-  <!-- Citation Modal -->
-  <div class="cite-modal" id="citeModal" role="dialog" aria-modal="true" aria-labelledby="citeModalTitle">
-    <div class="cite-modal-card">
-      <div class="cite-modal-header">
-        <div class="cite-modal-title" id="citeModalTitle"><i class="bi bi-quote"></i> Cite this Publication</div>
-        <button class="cite-modal-close" onclick="closeCiteModal()" aria-label="Close modal"><i class="bi bi-x-lg"></i></button>
-      </div>
-      <div class="cite-code-box" id="citeModalCode"></div>
-      <div class="cite-modal-footer">
-        <button class="btn btn-glass btn-sm" onclick="closeCiteModal()">Close</button>
-        <button class="btn btn-primary btn-sm" id="copyCiteBtn" onclick="copyCitationText()"><i class="bi bi-clipboard"></i> Copy BibTeX</button>
-      </div>
-    </div>
   </div>
 
   <script src="assets/js/config.js"></script>
