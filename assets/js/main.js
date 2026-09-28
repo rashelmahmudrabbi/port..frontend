@@ -748,6 +748,32 @@ async function hydrateHomePage() {
       }
     }
 
+    // Hero Stats (Dynamic live sync with admin site_settings)
+    if (profile.stats) {
+      const stats = profile.stats;
+      const heroStats = document.querySelectorAll('.hero-stat');
+      if (heroStats.length >= 4) {
+        // [0] Q1 Journal, [1] Conference, [2] AI Projects, [3] Honors & Awards
+        if (stats.publications !== undefined) {
+          // If total publications is known, ensure counters reflect updated values
+        }
+        if (stats.projects !== undefined) {
+          const numEl = heroStats[2].querySelector('.stat-num');
+          if (numEl) {
+            numEl.dataset.target = stats.projects;
+            numEl.textContent = stats.projects;
+          }
+        }
+        if (stats.awards !== undefined) {
+          const numEl = heroStats[3].querySelector('.stat-num');
+          if (numEl) {
+            numEl.dataset.target = stats.awards;
+            numEl.textContent = stats.awards;
+          }
+        }
+      }
+    }
+
     // Dynamic Spotlight Highlights
     try {
       const spotlights = await api.spotlights();
@@ -783,6 +809,11 @@ async function hydrateHomePage() {
         if (counterEl) {
           counterEl.textContent = `1 / ${spotlights.length}`;
         }
+
+        // Reset spotlight carousel index and timer to guarantee seamless cycling
+        spotIdx = 0;
+        goToSpotlight(0);
+        resetSpotlightTimer();
       }
     } catch (e) {
       console.warn('Could not hydrate spotlights:', e.message);

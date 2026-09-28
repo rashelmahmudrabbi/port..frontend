@@ -111,54 +111,51 @@ const FALLBACK = {
 
 
 async function apiFetch(endpoint) {
+  const cacheKey = 'rmr_api_' + endpoint;
+  const cacheTimeKey = cacheKey + '_time';
+  
+  // Read existing cached data for instant fallback if offline/slow
+  let cachedData = null;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    try {
+      cachedData = JSON.parse(cached);
+      if (cachedData && cachedData.value) cachedData = cachedData.value;
+      if (cachedData && cachedData.data) cachedData = cachedData.data;
+    } catch (e) {}
+  }
+
   try {
-    const cacheKey = 'rmr_api_' + endpoint;
-    const cacheTimeKey = cacheKey + '_time';
-    const cached = localStorage.getItem(cacheKey);
-    const cachedTime = localStorage.getItem(cacheTimeKey);
-    const CACHE_TTL = 3 * 60 * 1000; // 3 minutes TTL
-
-    let cachedData = null;
-    const isCacheFresh = cached && cachedTime && (Date.now() - Number(cachedTime) < CACHE_TTL);
-
-    if (cached) {
-      try {
-        cachedData = JSON.parse(cached);
-        if (cachedData && cachedData.value) cachedData = cachedData.value;
-        if (cachedData && cachedData.data) cachedData = cachedData.data;
-      } catch(e){}
-    }
-
-    const fetchPromise = fetch(API_BASE + '/' + endpoint, {
+    // Bust Vercel edge/CDN and browser cache with timestamp & no-cache headers
+    const url = `${API_BASE}/${endpoint}${endpoint.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+    const res = await fetch(url, {
       method: 'GET',
-      headers: { 'Accept': 'application/json' },
-      signal: AbortSignal.timeout(8000)
-    }).then(async res => {
-      if (res.ok) {
-        const data = await res.json();
-        const finalData = Array.isArray(data) ? data : (data.value ? data.value : (data.data || data));
+      headers: {
+        'Accept': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      },
+      signal: AbortSignal.timeout(6000)
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const finalData = Array.isArray(data) ? data : (data.value !== undefined ? data.value : (data.data || data));
+      try {
         localStorage.setItem(cacheKey, JSON.stringify(finalData));
         localStorage.setItem(cacheTimeKey, String(Date.now()));
-        return finalData;
-      }
-      return null;
-    }).catch(() => null);
-
-    // If cache is fresh and valid, return it immediately
-    if (isCacheFresh && cachedData) {
-      return cachedData;
+      } catch (storageErr) {}
+      return finalData;
     }
-
-    // Otherwise, fetch latest from network (or fallback to stale cache if offline/error)
-    const freshData = await fetchPromise;
-    if (freshData !== null) return freshData;
-    if (cachedData !== null) return cachedData;
-    return null;
-
-  } catch (e) {
-    console.warn('[API] Falling back to static data for "' + endpoint + '":', e.message);
-    return null;
+  } catch (err) {
+    console.warn(`[API] Network fetch for "${endpoint}" bypassed or failed, using cache/fallback:`, err.message);
   }
+
+  // Network failed or timed out — return cached copy if available
+  if (cachedData !== null) {
+    return cachedData;
+  }
+  return null;
 }
 
 const api = {
