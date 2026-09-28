@@ -519,6 +519,20 @@ async function renderPublicationsPage() {
   if (!container) return;
   container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-3)"><i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite;display:block;margin-bottom:1rem"></i>Loading…</div>';
   const pubs = await api.publications();
+  
+  // Update dynamic stats
+  let published = 0, conf = 0, thesis = 0, q1 = 0;
+  pubs.forEach(p => {
+    if (p.status === 'published' || p.status === 'completed') published++;
+    if (p.type === 'conference') conf++;
+    if (p.type === 'thesis') thesis++;
+    if (p.venue && p.venue.toLowerCase().includes('springer')) q1++; // or any logic to identify Q1
+  });
+  if (document.getElementById('statPublishedPapers')) document.getElementById('statPublishedPapers').textContent = published;
+  if (document.getElementById('statConferences')) document.getElementById('statConferences').textContent = conf;
+  if (document.getElementById('statThesis')) document.getElementById('statThesis').textContent = thesis;
+  if (document.getElementById('statQ1')) document.getElementById('statQ1').textContent = q1;
+
   const typeLabels = { journal: { label: 'Journal', cls: 'badge-blue', icon: 'bi-journal-check' }, conference: { label: 'Conference', cls: 'badge-purple', icon: 'bi-building' }, thesis: { label: 'Thesis', cls: 'badge-glass', icon: 'bi-mortarboard-fill' } };
   const statusLabels = { published: { label: 'Published', cls: 'badge-green', icon: 'bi-check-circle-fill' }, completed: { label: 'Completed', cls: 'badge-green', icon: 'bi-check-circle-fill' }, accepted: { label: 'Accepted', cls: 'badge-blue', icon: 'bi-check-circle' }, review: { label: 'Under Review', cls: 'badge-orange', icon: 'bi-hourglass-split' } };
   container.innerHTML = pubs.map((p, i) => {
@@ -641,7 +655,7 @@ async function hydrateHomePage() {
       });
     }
     if (profile.email) {
-      document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
+      document.querySelectorAll('.hero-meta-item a, .footer-dock-btn[href^="mailto:"]').forEach(el => {
         el.href = `mailto:${profile.email}`;
         if (el.textContent.includes('@')) el.textContent = profile.email;
       });
@@ -794,6 +808,7 @@ async function hydrateHomePage() {
                 <h4>${esc(s.title || '')}</h4>
                 <p>${esc(s.description || '')}</p>
                 ${s.tag ? `<span class="spotlight-tag-pill">${esc(s.tag)}</span>` : ''}
+                ${s.image ? `<div style="margin:1rem 0;"><img src="${esc(s.image)}" alt="${esc(s.title)}" style="max-width:100%; border-radius:var(--r-md); max-height:200px; object-fit:cover;"></div>` : ''}
                 ${linkHref !== '#' ? `<a href="${esc(linkHref)}" class="btn btn-glass btn-sm"><i class="bi bi-arrow-right-circle"></i> ${esc(linkText)}</a>` : ''}
               </div>
             `;
@@ -1235,7 +1250,7 @@ async function hydrateHomePage() {
               ${role ? `<p class="ref-role">${esc(role)}</p>` : ''}
               ${org ? `<p class="ref-org">${esc(org)}</p>` : ''}
               ${note ? `<span class="badge ${badgeCls} ref-note">${esc(note)}</span><br/><br/>` : '<br/>'}
-              ${email ? `<a class="ref-email" href="mailto:${esc(email)}"><i class="bi bi-envelope me-1"></i>${esc(email)}</a>` : ''}
+              ${email ? `<a class="ref-email" href="mailto:${esc(email)}" style="word-break: break-all;"><i class="bi bi-envelope me-1"></i>${esc(email)}</a>` : ''}
             </div>
           `;
         }).join('');
